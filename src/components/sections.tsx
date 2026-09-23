@@ -26,6 +26,7 @@ export function PageHero({
           fill
           priority
           sizes="100vw"
+          unoptimized
           // Every hero photograph places its subject right of centre (so the
           // copy doesn't cover it). On a phone the frame is far narrower than
           // the image, and a centred crop throws that subject away — so bias
