@@ -25,6 +25,10 @@
   }
 
   body {
+    /* `clip`, not `hidden`. Both contain a stray overflow, but `hidden` makes
+       the body a scroll container, which silently breaks every `position:
+       sticky` element on the site (the service rail, the contact aside). */
+    overflow-x: clip;
     font-family: var(--font-body);
     color: var(--color-charcoal);
     background: #ffffff;
@@ -209,8 +213,17 @@
       /*
        * Start after the element has entered the viewport.
        * Finish while the element is comfortably visible.
+       *
+       * `--rv-delay` is the stagger. A scroll-driven animation has no elapsed
+       * time, so `animation-delay` is inert here — the only way to make the
+       * second card in a row start after the first is to push its whole range
+       * further along the timeline. Both ends shift together so the duration
+       * stays identical; only the start point moves. Set it with `stagger(i)`
+       * from `components/ui`, never with `transitionDelay` (which these nodes
+       * ignore entirely — that is why grids used to pop all at once).
        */
-      animation-range: entry 25% cover 45%;
+      animation-range-start: entry calc(12% + var(--rv-delay, 0%));
+      animation-range-end: cover calc(46% + var(--rv-delay, 0%));
     }
 
     .reveal,
@@ -245,6 +258,48 @@
 
     .spotlight-card.reveal-zoom {
       animation-name: reveal-pop-vars-zoom;
+    }
+
+    /* ── Phone ────────────────────────────────────────────────
+       Two corrections, both only wrong on narrow screens:
+
+       1. A sideways reveal is a two-column idea. Once the grid has collapsed
+          to one column there is nothing for an element to arrive *beside*, and
+          a 34px horizontal offset on a 360px viewport pushes past the padding
+          — which is how a stray horizontal scrollbar appears on a page that
+          has no wide content. Both directions become the vertical pop.
+       2. The stagger is indexed by grid column. In one column there are no
+          columns to stagger, so it is pure lateness — each card already enters
+          the viewport on its own. */
+    @media (max-width: 639px) {
+      .reveal-left,
+      .reveal-right {
+        animation-name: reveal-up;
+      }
+
+      .spotlight-card.reveal-left,
+      .spotlight-card.reveal-right {
+        animation-name: reveal-pop-vars;
+      }
+
+      .reveal,
+      .reveal-up,
+      .reveal-left,
+      .reveal-right,
+      .reveal-zoom {
+        --rv-delay: 0%;
+
+        /* 3. The `cover` phase spans viewport height *plus element height*, so
+              a range measured in percent of it gets longer as the element gets
+              taller. That is fine for a card in a three-column grid; on a phone
+              the same markup is one full-width column and a section block can
+              be several screens tall, so `cover 46%` meant you had read half of
+              it before it finished arriving — the animation was technically
+              running and effectively invisible. A tighter window resolves tall
+              blocks early while still giving short cards room on screen. */
+        animation-range-start: cover 4%;
+        animation-range-end: cover 26%;
+      }
     }
   }
 }
@@ -347,28 +402,6 @@
     box-shadow: 0 12px 30px -6px rgba(5, 47, 69, 0.4);
   }
 
-  /* Continuous marquee. The track holds two identical copies of the list, so
-     translating by exactly -50% lands on the duplicate and loops seamlessly. */
-  @keyframes marquee-scroll {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
-  .marquee-track {
-    animation: marquee-scroll var(--marquee-duration, 60s) linear infinite;
-    will-change: transform;
-  }
-
-  /* Pause while the pointer is over the rail so items stay clickable. */
-  .marquee:hover .marquee-track,
-  .marquee:focus-within .marquee-track {
-    animation-play-state: paused;
-  }
-
   /* Skeleton placeholders — a gentle breathe rather than a sweeping gradient,
      which stays calm when a dozen of them animate at once. */
   @keyframes skeleton-pulse {
@@ -446,11 +479,6 @@
   }
 
   .skeleton-pulse {
-    animation: none !important;
-  }
-
-  /* Stand still and let the rail be scrolled manually instead. */
-  .marquee-track {
     animation: none !important;
   }
 }

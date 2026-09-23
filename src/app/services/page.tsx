@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { SEO, SERVICES, SERVICE_QUICKLINKS, GALLERY, DESIGN_BOXES, COUNTRY_COUNT } from '@/content/site'
-import { Button, Section, SectionHeading } from '@/components/ui'
+import { Button, Section, SectionHeading, stagger } from '@/components/ui'
 import { PageHero, ClosingCTA } from '@/components/sections'
 import ServiceQuickLinks from '@/components/ServiceQuickLinks'
+import { ScrollRail } from '@/components/ScrollRail'
 
 export const metadata: Metadata = {
   title: SEO.services.title,
@@ -93,7 +94,7 @@ export default function ServicesPage() {
             <figure
               key={item.caption}
               className="reveal group overflow-hidden rounded-2xl border border-hairline bg-soft"
-              style={{ transitionDelay: `${(i % 3) * 90}ms` }}
+              style={stagger(i % 3)}
             >
               <div className="relative aspect-[4/3] overflow-hidden bg-soft">
                 <Image
@@ -110,21 +111,29 @@ export default function ServicesPage() {
         </div>
 
 
-        {/* Project example cards */}
-        <div className="mt-10 grid gap-6 lg:grid-cols-2">
+        {/* Project example cards — a rail rather than a grid, so adding a third
+            example never forces a layout decision and the interaction matches
+            the service chips above. */}
+        <ScrollRail label="project examples" step={520} className="mt-10">
           {PROJECT_EXAMPLES.map((rows, n) => (
             <div
               key={n}
-              className="reveal-up overflow-hidden rounded-2xl border border-hairline transition-shadow duration-300 hover:shadow-lg hover:shadow-navy/10"
-              style={{ transitionDelay: `${n * 110}ms` }}
+              className="reveal-up w-[88vw] max-w-[560px] shrink-0 snap-start overflow-hidden rounded-2xl border border-hairline bg-white transition-shadow duration-300 hover:shadow-lg hover:shadow-navy/10 sm:w-[70vw] lg:w-[calc(50%-0.75rem)]"
+              style={stagger(n)}
             >
               <div className="flex items-center justify-between bg-navy px-6 py-3">
                 <span className="text-sm font-semibold text-white">Project  {n + 1}</span>
                 <span className="text-xs font-medium text-leaf">{rows[1].value}</span>
               </div>
+              {/* Rows stack on a phone: a fixed 140px label column left under
+                  160px for the value, which broke every word onto its own
+                  line. */}
               <dl className="divide-y divide-hairline">
                 {rows.map((row) => (
-                  <div key={row.field} className="grid grid-cols-[140px_1fr] gap-4 px-6 py-3.5">
+                  <div
+                    key={row.field}
+                    className="grid gap-1 px-6 py-3.5 sm:grid-cols-[140px_1fr] sm:gap-4"
+                  >
                     <dt className="text-sm font-semibold text-navy">{row.field}</dt>
                     <dd className="text-sm leading-relaxed text-charcoal/70">{row.value}</dd>
                   </div>
@@ -132,7 +141,7 @@ export default function ServicesPage() {
               </dl>
             </div>
           ))}
-        </div>
+        </ScrollRail>
         <div className="mt-8">
           <Button to="/contact" className="group">
             Discuss a Similar Project

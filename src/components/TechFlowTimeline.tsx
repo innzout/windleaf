@@ -86,13 +86,13 @@ export function TechFlowTimeline({
             continuous thread joining the milestones. */}
         <div
           aria-hidden="true"
-          className="absolute bottom-0 left-1/2 top-0 w-[2px] -translate-x-1/2 rounded-full"
+          className="absolute bottom-0 left-10 top-0 w-[2px] -translate-x-1/2 rounded-full sm:left-1/2"
           style={{ backgroundColor: 'rgba(0,194,168,0.22)' }}
         />
         <div
           ref={fillRef}
           aria-hidden="true"
-          className="absolute left-1/2 top-0 w-[2px] -translate-x-1/2 rounded-full transition-[height] duration-150 ease-out"
+          className="absolute left-10 top-0 w-[2px] -translate-x-1/2 rounded-full transition-[height] duration-150 ease-out sm:left-1/2"
           style={{ height: '0%', backgroundColor: '#00c2a8' }}
         />
 
@@ -103,22 +103,29 @@ export function TechFlowTimeline({
           const active = i < activeCount
           const colour = colours[i] ?? '#00c2a8'
 
+          // Alternating sides is a wide-screen idea. Below `sm` each column is
+          // only ~155px, which is narrower than the words in it, so the whole
+          // thing becomes one left-aligned column with the spine down the side
+          // — the node first, then the card.
           return (
             <li
               key={step.num}
-              className={`relative flex items-center ${isRight ? 'flex-row' : 'flex-row-reverse'}`}
+              className={`relative flex items-center flex-row ${
+                isRight ? 'sm:flex-row' : 'sm:flex-row-reverse'
+              }`}
               style={{ minHeight: 152 }}
             >
               {/* Card */}
               <div
-                className={`w-[calc(50%-2.5rem)] transition-all duration-700 ease-out ${
-                  isRight ? 'pr-6 text-right' : 'pl-6 text-left'
+                className={`order-2 w-[calc(100%-5rem)] pl-6 text-left transition-all duration-700 ease-out sm:order-none sm:w-[calc(50%-2.5rem)] ${
+                  isRight ? 'sm:pl-0 sm:pr-6 sm:text-right' : 'sm:pl-6 sm:text-left'
                 }`}
                 style={{
                   opacity: active ? 1 : 0,
-                  transform: active
-                    ? 'translateX(0) translateY(0)'
-                    : `translateX(${isRight ? '-24px' : '24px'}) translateY(8px)`,
+                  // Vertical only. A horizontal offset here used to push the
+                  // card past the right edge on a phone — which is where the
+                  // page's stray horizontal scrollbar came from.
+                  transform: active ? 'translateY(0)' : 'translateY(10px)',
                 }}
               >
                 {/* The step number sits inside the card as a small eyebrow.
@@ -164,7 +171,7 @@ export function TechFlowTimeline({
               </div>
 
               {/* Centre node */}
-              <div className="relative z-10 flex h-20 w-20 shrink-0 items-center justify-center">
+              <div className="order-1 relative z-10 flex h-20 w-20 shrink-0 items-center justify-center sm:order-none">
                 {/* Opaque disc so the dotted thread stops cleanly at the node
                     instead of running right up against the icon. */}
                 <span
@@ -195,7 +202,7 @@ export function TechFlowTimeline({
                 </div>
               </div>
 
-              <div className="w-[calc(50%-2.5rem)]" />
+              <div className="hidden w-[calc(50%-2.5rem)] sm:block" />
             </li>
           )
         })}

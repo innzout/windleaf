@@ -29,6 +29,17 @@ const STAGES: Record<
   },
 }
 
+/**
+ * The percentage a build stage alone represents.
+ *
+ * Exported so the caller can rescale it. The three build stages complete in a
+ * fraction of a second while the scroll into view takes as long as the reader
+ * takes, so leaving them spanning the whole bar made it jump to nearly full
+ * instantly and then crawl — the visible motion was in the wrong place.
+ */
+export const stageValue = (stage: GlobeStage) =>
+  stage === 'ready' ? 100 : STAGES[stage].value
+
 export function GlobeLoader({
   stage,
   countryCount,
@@ -58,17 +69,31 @@ export function GlobeLoader({
 export function GlobeLoaderInner({
   stage,
   countryCount,
+  value: valueOverride,
+  label: labelOverride,
 }: {
   stage: GlobeStage
   countryCount?: number
+  /**
+   * Overrides the stage's own percentage. Used once the scene is built but the
+   * globe is not yet fully on screen: the three build stages complete in a
+   * fraction of a second, so without this the bar jumps to 100% and then sits
+   * there for the whole scroll. The caller drives the tail from how far the
+   * globe has come into view instead.
+   */
+  value?: number
+  label?: string
 }) {
-  const { label, value } =
+  const stageState =
     stage === 'ready'
       ? {
           label: 'Ready',
           value: 100,
         }
       : STAGES[stage]
+
+  const value = Math.round(valueOverride ?? stageState.value)
+  const label = labelOverride ?? stageState.label
 
   const generatingLabel =
     stage === 'generating' && countryCount

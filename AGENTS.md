@@ -79,6 +79,31 @@ in practice; the symptom is identical each time — content just appears:
    end state and settles back, which is what makes the reveal read as a *pop*
    rather than a drift. Measured: scale runs 0.88 → 1.0056 → 1.0.
 
+**Stagger a grid with `stagger(i)` from `components/ui`, never `transitionDelay`
+or `animationDelay`.** A scroll-driven animation has no elapsed time, so
+`animation-delay` is inert, and `transition-delay` was never addressing the
+right property at all — every grid on the site carried one and *nothing* was
+staggered; rows popped as a single block. `stagger()` sets `--rv-delay`, which
+offsets the whole `animation-range` along the timeline. Pass the **column**
+index (`i % 3` in a three-column grid), not the absolute index, so each row
+sweeps from the left again. It self-cancels under 640px, where one column has
+no columns to stagger.
+
+**The phone gets its own `animation-range`** (`cover 4%` → `cover 26%`). The
+`cover` phase spans viewport height *plus element height*, so a percentage of
+it grows with the element. Fine for a card in a grid; on a phone that same
+markup is one full-width column and a section block can be several screens
+tall, so `cover 46%` meant you had read half of it before it finished arriving.
+Measured, not guessed: `/services` on a 390px viewport had three reveals still
+at 0.29–0.73 opacity after scrolling well past them.
+
+Directional reveals **collapse to the vertical pop under 640px**. Once the grid
+is one column there is nothing to arrive *beside*, and a 34px horizontal offset
+on a 360px viewport is a stray horizontal scrollbar waiting to happen.
+`body { overflow-x: clip }` is the backstop — `clip`, not `hidden`, because
+`hidden` makes the body a scroll container and silently breaks every
+`position: sticky` element on the site.
+
 The reveals carry **no `filter: blur()`**. Blur read as "out of focus" rather
 than "arriving", softened the type while the element settled, and was the most
 expensive part to composite. Offset + scale alone carry the motion — matching
@@ -285,6 +310,30 @@ needing `OffscreenCanvas`.
 - `GlobeMount.tsx` — **always import the globe through this.** It `next/dynamic`s
   with `ssr: false` *and* holds back the import until the viewport approaches.
 
+**Loading and revealing are two different moments — keep them apart.** The globe
+starts building 500px early (that is the whole performance mechanism above), but
+it does not *appear* until the frame is fully on screen, gated by
+`useFullyInView` in `Globe.tsx`. Without that split the fade ran while half the
+sphere was still below the fold, so you scrolled into an animation that was
+already finishing.
+
+**The bar is split 55/45 between work and scroll, and the lopsidedness is the
+point.** The three build stages finish in well under a second while the scroll
+into view takes as long as the reader takes. Letting the stages span the whole
+bar — which they originally did, reaching 88% — made it fill instantly and then
+inch: all the visible motion was in the wrong place. Building now compresses
+into the first 55% (`stageValue(stage) * 0.55`) and the remaining 45% is driven
+by how far the globe has come into view, so it completes exactly as the globe
+appears. Both halves are monotonic and the handover at `ready` moves forwards;
+`useFullyInView` also clamps `progress` against its own previous value, so
+scrolling back up cannot drain a bar that has already filled.
+
+Do not gate on `intersectionRatio >= 1` alone: an element taller than the
+viewport can never reach it and the loader would sit at 100% forever. The
+threshold is how much of the element *could* be on screen at once
+(`innerHeight / height`), and the observer needs a dense threshold ladder,
+because the trigger point is computed in the callback rather than declared.
+
 Country coordinates live in `COUNTRIES` in `src/content/site.ts`. When adding
 one, check its `lat`/`lon` actually falls on a land polygon — otherwise the
 beacon floats over the ocean. (`GlobalReach.tsx` reads the same `COUNTRIES`
@@ -321,6 +370,74 @@ mozjpeg-encoded (each 49-152 KB, from 4-9 MB originals):
 `PageHero` lays the copy over the left half, so the subject has to sit on the
 right — that is the only reason any of them are mirrored. Check composition
 before adding a new one rather than mirroring by default.
+
+## Country flags
+
+**Never render `country.flag` as text.** The emoji in `COUNTRIES` is fine as
+*data* but is not a way to *draw* a flag: Windows ships no colour flag glyphs
+at all, so Segoe UI Emoji renders the regional-indicator pair as two boxed
+letters or nothing. The same build showed flags on every phone and blanks on
+most desktops. Use `<Flag emoji={country.flag} name={country.name} />`, which
+serves a real SVG from `public/flags/`.
+
+The ISO code is derived from the emoji (a regional indicator is just the letter
+offset into a private block), so `site.ts` stays the single source of truth and
+nothing has to be kept in sync. Adding a country means dropping one more SVG
+into `public/flags/<iso>.svg` — they came from the `country-flag-icons`
+package's `3x2` directory, which is not a runtime dependency and is not
+installed.
+
+## Horizontal rails
+
+`ScrollRail` is the shared implementation for everything that scrolls sideways:
+the service chips, the project cards, and the globe's country dock. Arrows
+disable at each end, edge fades only render on the side with more content, and a
+`ResizeObserver` re-syncs when content reflows without the window resizing — a
+font landing or an image settling would otherwise leave the arrows lying about
+what is reachable. The arrows are additive: remove them and touch, drag and
+keyboard scrolling all still work.
+
+**No edge fades.** A white gradient over a white page is invisible in itself —
+what it actually does is erase the border and label of the chip beneath it,
+which reads as a white box eating the edge of the rail. The washing-out was the
+point when the country dock was an auto-scrolling marquee and content streamed
+past it; on a rail the reader controls, it only hides things, and the arrows
+already say there is more.
+
+Arrows flank the rail — one either side, in reserved 36px columns that stay put
+whether or not there is anything to scroll, so the rail does not jump sideways
+the moment its content starts overflowing on resize. Only the buttons come and
+go; a permanently greyed-out arrow reads as broken rather than as "nothing to
+scroll here".
+
+**Drag-to-scroll binds only for `pointerType === 'mouse'`.** Touch already
+swipes natively with momentum; capturing a touch pointer would replace that with
+a worse hand-written version. Two details that are easy to lose: `scroll-smooth`
+must come off while dragging (it eases toward each `scrollLeft` we set and lags
+the cursor), and a drag that crossed a card would fire that card's click on
+release — `pointerup` runs *before* `click`, so the suppression flag has to
+outlive the drag state rather than being read from it.
+
+**The country dock was a marquee and must not go back to being one.** It
+auto-scrolled inside an `overflow-hidden` box with the list duplicated, which
+meant the countries off either edge were unreachable — you waited for them to
+come round, and on a phone there was nothing to swipe at all. The
+`marquee-scroll` keyframes and `.marquee*` classes were deleted with it.
+
+## SEO and deployment
+
+The live domain is written in exactly one place: `NEXT_PUBLIC_SITE_URL`, read
+via `src/lib/site-url.ts`. `metadataBase`, every canonical tag, `sitemap.ts`,
+`robots.ts` and the JSON-LD all derive from it. Do not hard-code a domain
+anywhere else.
+
+Preview and development builds serve `noindex` — in `robots.txt` *and* as a
+meta tag, because robots.txt only stops a re-crawl while the meta tag is what
+removes a URL that was already indexed. A crawled Vercel preview competes with
+the live site for identical content.
+
+`DELIVERY.md` holds the launch checklist: domain, DNS, email delivery
+(the enquiry form has no backend yet), SPF/DKIM/DMARC, and Search Console.
 
 ## Known placeholders
 

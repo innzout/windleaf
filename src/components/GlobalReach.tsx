@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { COUNTRIES, COUNTRY_COUNT, REGION_COUNT, type Region } from '@/content/site'
 import { SpotlightCard } from '@/components/SpotlightCard'
 import { CountUp } from '@/components/CountUp'
+import { stagger } from '@/components/ui'
+import { Flag } from '@/components/Flag'
 
 const REGION_ORDER: Region[] = ['Asia-Pacific', 'Europe', 'Middle East & Africa', 'Americas']
 
@@ -63,11 +65,11 @@ export function GlobalReach() {
                         ? 'border-teal/45 bg-teal/[0.05]'
                         : 'border-hairline bg-white'
                   }`}
-                  style={{ transitionDelay: `${((groupIndex + i) % 3) * 90}ms` }}
+                  style={stagger(i % 3)}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-2.5">
-                      <span className="text-2xl leading-none">{country.flag}</span>
+                      <Flag emoji={country.flag} name={country.name} className="h-5 w-[30px]" />
                       <h4 className="font-display text-xl font-semibold text-navy">
                         {country.name}
                       </h4>

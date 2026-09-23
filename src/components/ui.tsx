@@ -1,5 +1,21 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import Link from 'next/link'
+
+/**
+ * Stagger one item in a revealed grid or list.
+ *
+ * `.reveal-*` are scroll-driven animations, which have no elapsed time — so
+ * `animationDelay` is inert and `transitionDelay` (what this replaced) was
+ * never even addressing the right property. `globals.css` instead offsets the
+ * whole `animation-range` by `--rv-delay`, which is what actually makes the
+ * second card start after the first. It self-cancels under 640px, where a
+ * one-column layout has no columns to stagger.
+ *
+ * Pass the item's *column* index, not its absolute index — `i % 3` in a
+ * three-column grid — so every row starts its sweep from the left again.
+ */
+export const stagger = (index: number): CSSProperties =>
+  ({ '--rv-delay': `${index * 8}%` }) as CSSProperties
 
 type ButtonProps = {
   to?: string

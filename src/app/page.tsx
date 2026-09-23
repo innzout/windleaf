@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { SEO, STATS, EXPERIENCE, WHAT_WE_DO, SIX_REASONS, HERO_VIDEO } from '@/content/site'
-import { Button, Section, SectionHeading } from '@/components/ui'
+import { Button, Section, SectionHeading, stagger } from '@/components/ui'
 import { ClosingCTA } from '@/components/sections'
 import { TechFlow } from '@/components/TechFlow'
 import { SpotlightCard } from '@/components/SpotlightCard'
@@ -107,7 +107,7 @@ export default function HomePage() {
               key={stat.label}
               spotlightColor="rgba(45, 190, 96, 0.16)"
               className="reveal-zoom rounded-2xl border border-hairline bg-white p-8 text-center shadow-sm"
-              style={{ transitionDelay: `${i * 110}ms` }}
+              style={stagger(i)}
             >
               <div className="font-display text-5xl font-bold text-green transition-transform duration-300 group-hover:scale-105 md:text-6xl">
                 <CountUp value={stat.value} />
@@ -123,7 +123,7 @@ export default function HomePage() {
               key={item.title}
               spotlightColor="rgba(0, 194, 168, 0.14)"
               className="reveal-up rounded-2xl border border-hairline bg-white p-6"
-              style={{ transitionDelay: `${i * 90}ms` }}
+              style={stagger(i)}
             >
               <h3 className="text-xl font-semibold text-navy">{item.title}</h3>
               <p className="mt-2 text-base leading-relaxed text-charcoal/70">{item.body}</p>
@@ -156,7 +156,7 @@ export default function HomePage() {
               as="article"
               spotlightColor="rgba(45, 190, 96, 0.18)"
               className="reveal-up group flex flex-col rounded-2xl border border-hairline bg-mist p-8 transition-all hover:border-green/50"
-              style={{ transitionDelay: `${i * 120}ms` }}
+              style={stagger(i)}
             >
               <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-navy text-leaf transition-transform duration-300 group-hover:scale-110 group-hover:bg-green group-hover:text-white">
                 <span className="font-display text-sm font-semibold">0{i + 1}</span>
@@ -196,7 +196,7 @@ export default function HomePage() {
               key={reason.title}
               spotlightColor="rgba(0, 194, 168, 0.15)"
               className="reveal-up rounded-2xl border border-hairline bg-white p-7"
-              style={{ transitionDelay: `${(i % 3) * 90}ms` }}
+              style={stagger(i % 3)}
             >
               <span className="font-display text-2xl font-bold text-blade transition-colors duration-300 group-hover:text-green">
                 {String(i + 1).padStart(2, '0')}

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { SEO, EXPERIENCE, VALUES, COUNTRY_COUNT } from '@/content/site'
-import { Button, Section, SectionHeading } from '@/components/ui'
+import { Button, Section, SectionHeading, stagger } from '@/components/ui'
 import { PageHero, ClosingCTA } from '@/components/sections'
 import { SpotlightCard } from '@/components/SpotlightCard'
 import { GlobalReach } from '@/components/GlobalReach'
@@ -89,7 +89,7 @@ export default function AboutPage() {
               key={item.title}
               spotlightColor="rgba(45, 190, 96, 0.16)"
               className="reveal-up flex flex-col rounded-2xl border border-hairline bg-white p-8"
-              style={{ transitionDelay: `${i * 100}ms` }}
+              style={stagger(i)}
             >
               <span className="font-display text-2xl font-bold text-blade transition-colors duration-300 group-hover:text-green">
                 0{i + 1}
@@ -166,7 +166,7 @@ export default function AboutPage() {
               key={value.title}
               spotlightColor="rgba(0, 194, 168, 0.16)"
               className="reveal-up rounded-2xl border border-hairline bg-white p-7"
-              style={{ transitionDelay: `${i * 90}ms` }}
+              style={stagger(i % 4)}
             >
               <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-green/12 text-green transition-transform duration-300 group-hover:scale-110 group-hover:bg-green group-hover:text-white">
                 <span className="h-2.5 w-2.5 rounded-full bg-green group-hover:bg-white" />

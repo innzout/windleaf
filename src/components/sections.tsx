@@ -100,14 +100,14 @@ export function ClosingCTA({
     <section className={tone === 'navy' ? 'bg-navy' : 'brand-gradient'}>
       <div className="mx-auto w-full max-w-7xl px-6 py-20 md:py-24 lg:px-10">
         <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
-          <div className="max-w-2xl">
+          <div className="reveal-up max-w-2xl">
             <Eyebrow>{eyebrow}</Eyebrow>
             <h2 className="mt-4 text-3xl font-semibold text-balance !text-white sm:text-4xl">
               {title}
             </h2>
             {text && <p className="mt-4 text-lg text-white/75">{text}</p>}
           </div>
-          <Button to={to} variant="green" className="group shrink-0 px-7 py-4 text-base">
+          <Button to={to} variant="green" className="reveal-up group shrink-0 px-7 py-4 text-base">
             {buttonLabel}
           </Button>
         </div>

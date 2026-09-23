@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { SEO, WHY_IT_MATTERS, CAPABILITIES, INNOVATION_LIST } from '@/content/site'
-import { Button, Section, SectionHeading } from '@/components/ui'
+import { Button, Section, SectionHeading, stagger } from '@/components/ui'
 import { PageHero } from '@/components/sections'
 import { TechFlow } from '@/components/TechFlow'
 import { StatusTag } from '@/components/StatusTag'
@@ -63,7 +63,7 @@ export default function TechnologyPage() {
               key={point.title}
               spotlightColor="rgba(45, 190, 96, 0.16)"
               className="reveal-up rounded-2xl border border-hairline bg-white p-7"
-              style={{ transitionDelay: `${(i % 3) * 90}ms` }}
+              style={stagger(i % 3)}
             >
               <h3 className="text-xl font-semibold text-navy">{point.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-charcoal/70">{point.body}</p>
@@ -88,7 +88,7 @@ export default function TechnologyPage() {
               as="article"
               spotlightColor="rgba(0, 194, 168, 0.16)"
               className="reveal-up flex flex-col rounded-2xl border border-hairline bg-mist p-8"
-              style={{ transitionDelay: `${(i % 2) * 100}ms` }}
+              style={stagger(i % 2)}
             >
               <h3 className="text-2xl font-semibold text-navy">{capability.title}</h3>
               <div className="mt-3">
@@ -117,7 +117,7 @@ export default function TechnologyPage() {
               <li
                 key={item}
                 className="reveal-right flex items-center gap-4 rounded-xl border border-white/15 bg-white/5 p-5 text-lg font-medium text-white transition-all duration-300 hover:translate-x-1 hover:border-teal/50 hover:bg-white/10"
-                style={{ transitionDelay: `${i * 80}ms` }}
+                style={stagger(i)}
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-green/20 text-leaf">
                   <span className="h-2.5 w-2.5 rounded-full bg-leaf" />

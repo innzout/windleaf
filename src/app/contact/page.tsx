@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import { SEO } from '@/content/site'
-import { Section } from '@/components/ui'
+import { SEO, COUNTRY_COUNT } from '@/content/site'
+import { Section, stagger } from '@/components/ui'
 import { PageHero } from '@/components/sections'
 import { ContactForm } from '@/components/ContactForm'
 
@@ -28,10 +28,14 @@ export default function ContactPage() {
 
       <Section tone="white">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_0.6fr] lg:items-start">
-          <ContactForm />
+          <div className="reveal-up">
+            <ContactForm />
+          </div>
 
+          {/* The reveal cannot sit on the sticky element — once pinned it stops
+              moving through the viewport, so its timeline never advances. */}
           <aside className="lg:sticky lg:top-32">
-            <div className="rounded-2xl border border-hairline bg-mist p-8">
+            <div className="reveal-up rounded-2xl border border-hairline bg-mist p-8">
               <h3 className="text-xl font-semibold text-navy">Get in Touch</h3>
               <ul className="mt-6 space-y-5 text-sm">
                 {CONTACT_DETAILS.map((detail) => (
@@ -44,11 +48,11 @@ export default function ContactPage() {
                 ))}
               </ul>
             </div>
-            <div className="mt-6 rounded-2xl border border-hairline bg-navy p-8 text-white">
+            <div className="reveal-up mt-6 rounded-2xl border border-hairline bg-navy p-8 text-white" style={stagger(1)}>
               <h3 className="text-lg font-semibold !text-white">Independent Blade Engineering</h3>
               <p className="mt-2 text-sm text-white/70">
-                17+ years across OEM, IPP and independent engineering, with project experience in 11
-                countries.
+                17+ years across OEM, IPP and independent engineering, with project experience in{' '}
+                {COUNTRY_COUNT} countries.
               </p>
             </div>
           </aside>

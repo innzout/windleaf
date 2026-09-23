@@ -10,6 +10,29 @@ import { SectionHeading } from '@/components/ui'
 
 type Status = 'idle' | 'success' | 'error'
 
+/**
+ * Single source of truth for what makes one field invalid.
+ *
+ * Both the submit check and the live re-check call this, so a red border can
+ * never disagree with what submitting would actually say. Keep new rules here
+ * rather than inline in the submit handler.
+ */
+function fieldError(name: string, raw: string): boolean {
+  const value = raw.trim()
+  const field = FORM_FIELDS.find((f) => f.name === name)
+
+  if (field?.required && !value) return true
+  // Format rules only apply to something typed — an empty optional field is
+  // not an error.
+  if (!value) return false
+
+  if (name === 'email') return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+  if (name === 'phone') return !/^[+]?[\d\s().-]{7,20}$/.test(value)
+  if (name === 'requirement') return value.length < 10
+
+  return false
+}
+
 export function ContactForm() {
   const [status, setStatus] = useState<Status>('idle')
   const [errors, setErrors] = useState<Record<string, boolean>>({})
@@ -22,43 +45,10 @@ export function ContactForm() {
 
     const nextErrors: Record<string, boolean> = {}
 
-    // Required field validation
     for (const field of FORM_FIELDS) {
-      if (
-        field.required &&
-        !String(data.get(field.name) ?? '').trim()
-      ) {
+      if (fieldError(field.name, String(data.get(field.name) ?? ''))) {
         nextErrors[field.name] = true
       }
-    }
-
-    // Email validation
-    const email = String(data.get('email') ?? '').trim()
-
-    if (
-      email &&
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-    ) {
-      nextErrors.email = true
-    }
-
-    // Phone validation
-    const phone = String(data.get('phone') ?? '').trim()
-
-    if (
-      phone &&
-      !/^[+]?[\d\s().-]{7,20}$/.test(phone)
-    ) {
-      nextErrors.phone = true
-    }
-
-    // Requirement validation
-    const requirement = String(
-      data.get('requirement') ?? '',
-    ).trim()
-
-    if (requirement && requirement.length < 10) {
-      nextErrors.requirement = true
     }
 
     setErrors(nextErrors)
@@ -71,6 +61,35 @@ export function ContactForm() {
     setStatus('success')
     setErrors({})
     form.reset()
+  }
+
+  /**
+   * Clear a field's red border as soon as it becomes valid again.
+   *
+   * The inputs are uncontrolled, so without this nothing re-reads them between
+   * submits and a corrected field kept its error styling until the form was
+   * submitted a second time. Bound once on the <form>, because change events
+   * bubble — every input, select and textarea inside is covered, including any
+   * added later.
+   */
+  function handleFieldEdit(event: FormEvent<HTMLFormElement>) {
+    const target = event.target as
+      | HTMLInputElement
+      | HTMLSelectElement
+      | HTMLTextAreaElement
+
+    const { name, value } = target
+    // Still wrong — keep the border up rather than flickering it off per
+    // keystroke and back on at submit.
+    if (!name || !errors[name] || fieldError(name, value)) return
+
+    const next = { ...errors }
+    delete next[name]
+    setErrors(next)
+
+    // Last one fixed: retire the summary message too, or it sits there
+    // claiming there are highlighted fields when none are left.
+    if (Object.keys(next).length === 0) setStatus('idle')
   }
 
   const inputCls = (name: string) =>
@@ -123,6 +142,7 @@ export function ContactForm() {
       ) : (
         <form
           onSubmit={handleSubmit}
+          onChange={handleFieldEdit}
           noValidate
           className="mt-8"
         >

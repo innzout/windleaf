@@ -4,10 +4,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { COUNTRIES, type Country, type Region } from '@/content/site'
 import { usePrefersReducedMotion } from '@/lib/hooks'
+import { Flag } from '@/components/Flag'
+import { ScrollRail } from '@/components/ScrollRail'
 import { GlobeScene, GLOBE_RADIUS } from './globe-scene'
 import type { DotData } from './land-dots'
 import type { GlobeWorkerResponse } from './globe.worker'
-import { GlobeLoaderInner, type GlobeStage } from './GlobeLoader'
+import { GlobeLoaderInner, stageValue, type GlobeStage } from './GlobeLoader'
 
 /** Fallback for environments where a Worker can't be created. */
 async function generateOnMainThread(count: number, install: (data: DotData) => void) {
@@ -36,6 +38,61 @@ export function Globe({ variant = 'interactive', className = '' }: GlobeProps) {
   return <InteractiveGlobe className={className} />
 }
 
+/**
+ * How far the element has come towards being *fully* inside the viewport:
+ * `progress` runs 0 → 1, and `fully` latches true at the end.
+ *
+ * The globe starts loading 500px early, so being merely ready is not the right
+ * moment to show it — the fade would run while half the sphere is still below
+ * the fold, and you would scroll into an animation already finishing.
+ *
+ * `progress` exists because the three build stages finish in a fraction of a
+ * second: gate only on the boolean and the bar shoots to 100% and then sits
+ * there doing nothing for the whole scroll. Driving the last stretch of the bar
+ * from this instead means it fills as you scroll and completes at the exact
+ * moment the globe appears.
+ *
+ * `ratio >= 1` alone is not safe: an element taller than the viewport can never
+ * reach it, and the loader would hang forever. The target is therefore how much
+ * of the element *could* be on screen at once.
+ */
+function useFullyInView(ref: React.RefObject<HTMLElement | null>) {
+  const [state, setState] = useState({ fully: false, progress: 0 })
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    if (!('IntersectionObserver' in window)) {
+      setState({ fully: true, progress: 1 })
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const height = entry.boundingClientRect.height || 1
+        const target = Math.min(1, window.innerHeight / height) * 0.97
+        const progress = Math.min(1, entry.intersectionRatio / target)
+
+        if (progress < 1) {
+          // Never walk backwards. Scrolling up past the globe would otherwise
+          // drain a bar that has already been filling.
+          setState((prev) => (prev.fully ? prev : { fully: false, progress: Math.max(prev.progress, progress) }))
+          return
+        }
+        observer.disconnect()
+        setState({ fully: true, progress: 1 })
+      },
+      // A dense ladder, not a single value: the trigger point is computed at
+      // callback time, and the bar needs updating continuously on the way up.
+      { threshold: Array.from({ length: 21 }, (_, i) => i / 20) },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [ref])
+
+  return state
+}
+
 /* ─── Shared WebGL canvas ───────────────────────────────────────── */
 
 type CanvasProps = {
@@ -52,6 +109,13 @@ function GlobeCanvas({ dotDensity, onHover, onSelect, sceneRef, className = '' }
   const [failed, setFailed] = useState(false)
   const [stage, setStage] = useState<GlobeStage>('initialising')
   const reducedMotion = usePrefersReducedMotion()
+
+  // Two conditions, both required. `ready` is "the scene exists"; this is "you
+  // can actually see it". The WebGL work still happens early — that 350ms of
+  // context creation and shader compilation must stay out of page load — only
+  // the reveal waits.
+  const { fully: fullyInView, progress: viewProgress } = useFullyInView(mountRef)
+  const revealed = ready && fullyInView
 
   // Keep the latest callbacks reachable without re-creating the scene.
   const hoverRef = useRef(onHover)
@@ -142,14 +206,26 @@ function GlobeCanvas({ dotDensity, onHover, onSelect, sceneRef, className = '' }
       <div
         ref={mountRef}
         className={`h-full w-full cursor-grab transition-opacity duration-1000 active:cursor-grabbing ${
-          ready ? 'opacity-100' : 'opacity-0'
+          revealed ? 'opacity-100' : 'opacity-0'
         } ${className}`}
         aria-label="Interactive 3D globe of Windleaf project locations. Drag to rotate."
         role="img"
       />
-      {!ready && (
+      {!revealed && (
         <div className="pointer-events-none absolute inset-0 grid place-items-center">
-          <GlobeLoaderInner stage={stage} />
+          {/* Once the scene is built, the remaining stretch of the bar is driven
+              by the scroll rather than by work — so it keeps filling instead of
+              parking at 100%, and lands on 100% as the globe appears. */}
+          <GlobeLoaderInner
+            stage={ready ? 'ready' : stage}
+            // Building owns the first 55% of the bar, scrolling into view the
+            // rest. The split is deliberately lopsided against the work: the
+            // build finishes in well under a second, so giving it the whole bar
+            // meant it filled instantly and then inched. Both halves are
+            // monotonic, and the handover at `ready` moves forwards.
+            value={ready ? 55 + 45 * viewProgress : stageValue(stage) * 0.55}
+            label={ready ? 'Bringing into view' : undefined}
+          />
         </div>
       )}
     </>
@@ -355,7 +431,7 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
           >
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="flex items-center gap-3">
-                <span className="text-3xl leading-none">{display.flag}</span>
+                <Flag emoji={display.flag} name={display.name} className="h-6 w-9" />
                 <div>
                   <div className="flex items-center gap-2">
                     <h4 className="font-display text-lg font-bold text-white">{display.name}</h4>
@@ -435,45 +511,37 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
 
       </div>
 
-      {/* ── Country marquee ─────────────────────────────────────── */}
-      {/* Scrolls continuously and pauses on hover/focus so every chip stays
-          clickable. The list is rendered twice inside the track; translating
-          by -50% lands on the duplicate, so the loop has no visible seam. */}
-      <div className="marquee relative mt-5 overflow-hidden">
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent"
-        />
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent"
-        />
-        <div
-          className="marquee-track flex w-max items-stretch gap-2 py-1"
-          style={{ ['--marquee-duration' as string]: `${filtered.length * 6}s` }}
-        >
-          {[0, 1].map((copy) => (
-            <div key={copy} className="flex items-stretch gap-2" aria-hidden={copy === 1}>
-              {filtered.map((country) => {
-                const selected = activeCountry.name === country.name
-                return (
+      {/* ── Country dock ────────────────────────────────────────── */}
+      {/* A rail, not a marquee. It used to scroll itself continuously inside an
+          `overflow-hidden` box, which meant the countries off either edge were
+          simply unreachable — you had to wait for them to come round, and on a
+          phone there was nothing to swipe at all. Now it scrolls by touch,
+          mouse drag, arrows or keyboard, and stays where you put it. */}
+      <ScrollRail
+        label="countries"
+        step={240}
+        className="mt-5"
+        itemsClassName="gap-2 py-1"
+      >
+        {filtered.map((country) => {
+          const selected = activeCountry.name === country.name
+          return (
                   <button
-                    key={`${copy}-${country.name}`}
+                    key={country.name}
                     type="button"
-                    tabIndex={copy === 1 ? -1 : 0}
                     onClick={() => focus(country)}
                     onMouseEnter={() => preview(country)}
                     onMouseLeave={() => preview(null)}
                     onFocus={() => preview(country)}
                     onBlur={() => preview(null)}
                     aria-pressed={selected}
-                    className={`group flex shrink-0 items-center gap-2.5 rounded-xl border px-4 py-2.5 text-left transition-all duration-200 ${
+                    className={`group flex shrink-0 snap-start items-center gap-2.5 rounded-xl border px-4 py-2.5 text-left transition-all duration-200 ${
                       selected
                         ? 'border-navy bg-navy text-white shadow-md shadow-navy/20'
                         : 'border-hairline bg-white hover:border-teal hover:bg-teal/8'
                     }`}
                   >
-                    <span className="text-base leading-none">{country.flag}</span>
+                    <Flag emoji={country.flag} name={country.name} className="h-4 w-6" />
                     <span className="flex flex-col leading-tight">
                       <span
                         className={`text-xs font-semibold ${selected ? 'text-white' : 'text-navy'}`}
@@ -501,15 +569,13 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
                       </span>
                     )}
                   </button>
-                )
-              })}
-            </div>
-          ))}
-        </div>
-      </div>
+          )
+        })}
+      </ScrollRail>
 
       <p className="mt-4 text-center text-xs text-charcoal/45">
-        Drag to spin the globe, click a glowing beacon, or pick a country to fly the view to it.
+        Drag to spin the globe, click a glowing beacon, or swipe the list below to fly the view to a
+        country.
       </p>
     </div>
   )
