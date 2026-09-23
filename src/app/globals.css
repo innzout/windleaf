@@ -1,0 +1,456 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-navy: #052f45;
+  --color-navy-700: #063a52;
+  --color-green: #2dbe60;
+  --color-forest: #1f8a4c;
+  --color-teal: #00c2a8;
+  --color-sky: #00afc1;
+  --color-blade: #aeb9be;
+  --color-soft: #e8edf0;
+  --color-mist: #f0f8fa;
+  --color-leaf: #7dcb45;
+  --color-sun: #ffc107;
+  --color-charcoal: #26343a;
+  --color-hairline: #e5e7eb;
+
+  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--color-charcoal);
+    background: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: var(--font-display);
+    color: var(--color-navy);
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: var(--color-leaf);
+    color: var(--color-navy);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-green);
+    outline-offset: 2px;
+  }
+}
+
+/* Rich scroll-driven reveal animations & micro-interactions */
+@layer utilities {
+  .brand-gradient {
+    background-image: linear-gradient(135deg, #00c2a8 0%, #052f45 100%);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* ─── Scroll Reveal Animations ─────────────────────────────────
+     Driven entirely by CSS scroll-driven animations — no JavaScript, and
+     crucially no DOM mutation.
+
+     These used to be a class/attribute toggled by an IntersectionObserver.
+     That meant writing to nodes React owns, and it caused three separate
+     bugs: a hydration mismatch, whole sections rendering blank when React
+     bailed on patching the subtree, and animations firing before the
+     element was on screen. Every attempted fix was a timing guess that
+     could still lose the race against segment hydration.
+
+     Where `animation-timeline` is unsupported the rules simply do not
+     apply, so the content renders plainly visible. It is not possible for
+     this to hide anything. */
+  /* No `filter: blur()` in any of these. Blur read as "out of focus" rather
+     than "arriving", it softened the type while the element settled, and it is
+     the most expensive part of the effect to composite. The motion is carried
+     by offset + scale alone, which is what makes it read as a pop. */
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.94);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes reveal-left {
+    from {
+      opacity: 0;
+      transform: translateX(-34px) scale(0.94);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes reveal-right {
+    from {
+      opacity: 0;
+      transform: translateX(34px) scale(0.94);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes reveal-zoom {
+    from {
+      opacity: 0;
+      transform: scale(0.88);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Spotlight cards own a live hover tilt, so they cannot take a `transform`
+     from an animation — it would win and pin the tilt flat. These drive the
+     same pop through registered custom properties instead, which the card's
+     own transform composes with its tilt. */
+  @property --rv-y {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 0px;
+  }
+  @property --rv-x {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 0px;
+  }
+  @property --rv-s {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 1;
+  }
+
+  @keyframes reveal-pop-vars {
+    from {
+      opacity: 0;
+      --rv-y: 30px;
+      --rv-s: 0.94;
+    }
+    to {
+      opacity: 1;
+      --rv-y: 0px;
+      --rv-s: 1;
+    }
+  }
+
+  @keyframes reveal-pop-vars-left {
+    from {
+      opacity: 0;
+      --rv-x: -34px;
+      --rv-s: 0.94;
+    }
+    to {
+      opacity: 1;
+      --rv-x: 0px;
+      --rv-s: 1;
+    }
+  }
+
+  @keyframes reveal-pop-vars-right {
+    from {
+      opacity: 0;
+      --rv-x: 34px;
+      --rv-s: 0.94;
+    }
+    to {
+      opacity: 1;
+      --rv-x: 0px;
+      --rv-s: 1;
+    }
+  }
+
+  @keyframes reveal-pop-vars-zoom {
+    from {
+      opacity: 0;
+      --rv-s: 0.88;
+    }
+    to {
+      opacity: 1;
+      --rv-s: 1;
+    }
+  }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal,
+    .reveal-up,
+    .reveal-left,
+    .reveal-right,
+    .reveal-zoom {
+      animation-duration: auto;
+      animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1);
+      animation-fill-mode: both;
+      animation-timeline: view();
+
+      /*
+       * Start after the element has entered the viewport.
+       * Finish while the element is comfortably visible.
+       */
+      animation-range: entry 25% cover 45%;
+    }
+
+    .reveal,
+    .reveal-up {
+      animation-name: reveal-up;
+    }
+
+    .reveal-left {
+      animation-name: reveal-left;
+    }
+
+    .reveal-right {
+      animation-name: reveal-right;
+    }
+
+    .reveal-zoom {
+      animation-name: reveal-zoom;
+    }
+
+    .spotlight-card.reveal,
+    .spotlight-card.reveal-up {
+      animation-name: reveal-pop-vars;
+    }
+
+    .spotlight-card.reveal-left {
+      animation-name: reveal-pop-vars-left;
+    }
+
+    .spotlight-card.reveal-right {
+      animation-name: reveal-pop-vars-right;
+    }
+
+    .spotlight-card.reveal-zoom {
+      animation-name: reveal-pop-vars-zoom;
+    }
+  }
+}
+  /* ─── First-paint entrance ───────────────────────────────────
+     Above-the-fold content must NOT use the .reveal-* classes: those
+     sit at opacity 0 until they scroll into view, so the hero would
+     render as a bare photograph for a beat before any copy appeared.
+     These are pure CSS and run at first paint, no JS involved. */
+  @keyframes enter-up {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+      filter: blur(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes enter-left {
+    from {
+      opacity: 0;
+      transform: translateX(-26px);
+      filter: blur(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+      filter: blur(0);
+    }
+  }
+
+  .enter-up {
+    animation: enter-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .enter-left {
+    animation: enter-left 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* ─── Interactive Mouse Enter / Hover Animations ────────────── */
+  .spotlight-card {
+    position: relative;
+    overflow: hidden;
+    /* One transform, two independent sources: the `--rv-*` vars are driven by
+       the scroll reveal, the `--tilt-*` vars by the pointer. Keeping them in
+       separate variables is what lets a card pop in and tilt on hover without
+       either clobbering the other. */
+    transform: perspective(1000px) translate3d(var(--rv-x, 0px), var(--rv-y, 0px), 0)
+      scale(var(--rv-s, 1)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg))
+      translateY(var(--tilt-lift, 0px));
+    transition:
+      transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.3s ease;
+  }
+
+  .spotlight-card:hover {
+    box-shadow:
+      0 20px 45px -12px rgba(5, 47, 69, 0.14),
+      0 0 0 1px rgba(45, 190, 96, 0.35);
+  }
+
+  /* Button shimmer sweep */
+  .btn-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-shimmer::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 40%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.28) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(25deg) translateX(-100%);
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+
+  .btn-shimmer:hover::after {
+    transform: rotate(25deg) translateX(450%);
+  }
+
+  /* Glowing hover shadows */
+  .hover-glow-green:hover {
+    box-shadow: 0 12px 30px -6px rgba(45, 190, 96, 0.45);
+  }
+
+  .hover-glow-navy:hover {
+    box-shadow: 0 12px 30px -6px rgba(5, 47, 69, 0.4);
+  }
+
+  /* Continuous marquee. The track holds two identical copies of the list, so
+     translating by exactly -50% lands on the duplicate and loops seamlessly. */
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee-track {
+    animation: marquee-scroll var(--marquee-duration, 60s) linear infinite;
+    will-change: transform;
+  }
+
+  /* Pause while the pointer is over the rail so items stay clickable. */
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+
+  /* Skeleton placeholders — a gentle breathe rather than a sweeping gradient,
+     which stays calm when a dozen of them animate at once. */
+  @keyframes skeleton-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.45;
+    }
+  }
+
+  .skeleton-pulse {
+    animation: skeleton-pulse 1.6s ease-in-out infinite;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ─── Globe support ───────────────────────────────────────────── */
+@keyframes globe-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.globe-canvas-enter {
+  animation: globe-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes scan {
+  0% {
+    transform: translateX(-150px);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(1050px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The reveal animations are already scoped to
+     `prefers-reduced-motion: no-preference`, so they never apply here — the
+     content simply renders in place. */
+  .spotlight-card,
+  .btn-shimmer::after {
+    transition: none !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+  }
+
+  .enter-up,
+  .enter-left {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .skeleton-pulse {
+    animation: none !important;
+  }
+
+  /* Stand still and let the rail be scrolled manually instead. */
+  .marquee-track {
+    animation: none !important;
+  }
+}
