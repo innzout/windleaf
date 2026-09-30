@@ -380,7 +380,7 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
           </div>
           <div className="flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded-full bg-teal shadow-[0_0_8px_#00c2a8]" />
-            <span>Denmark Apex Alliance</span>
+            <span>European Design Collaboration</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-green shadow-[0_0_6px_#2dbe60]" />

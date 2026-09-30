@@ -1,26 +1,14 @@
 import Link from 'next/link'
 import { NAV, SERVICES, COUNTRY_COUNT } from '@/content/site'
+import { Logo } from '@/components/Logo'
 
 export function Footer() {
   return (
     <footer className="bg-navy text-white">
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-6 py-16 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:px-10">
         <div>
-          <div className="flex items-center gap-2.5">
-            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-              <g transform="translate(16 16)">
-                {[0, 120, 240].map((d, i) => (
-                  <path
-                    key={d}
-                    transform={`rotate(${d})`}
-                    d="M0 0 C4 -1 12 -3 14 -13 C9 -10 2 -5 0 0 Z"
-                    fill={i === 0 ? '#8FC65A' : '#AEB9BE'}
-                  />
-                ))}
-                <circle r="3" fill="#ffffff" />
-              </g>
-            </svg>
-            <span className="font-display text-lg font-semibold">Windleaf</span>
+          <div>
+            <Logo onDark height={42} />
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
             Independent wind turbine blade engineering and consulting — from manufacturing to

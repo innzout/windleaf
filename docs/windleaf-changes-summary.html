@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Windleaf Engineering — Website Enhancements & Content Update Report</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+    @page {
+      size: A4;
+      margin: 14mm 14mm 16mm 14mm;
+      @bottom-right {
+        content: counter(page);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1E293B;
+      background: #FFFFFF;
+      font-size: 10.5pt;
+      line-height: 1.55;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    .avoid-break {
+      page-break-inside: avoid;
+    }
+
+    :root {
+      --navy: #0B192C;
+      --navy-light: #1E3E62;
+      --teal: #0D9488;
+      --teal-light: #F0FDFA;
+      --green: #10B981;
+      --green-light: #ECFDF5;
+      --charcoal: #334155;
+      --muted: #64748B;
+      --hairline: #E2E8F0;
+      --bg-light: #F8FAFC;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--teal);
+      margin-bottom: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #0D9488 0%, #0B192C 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    .brand-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16pt;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.5px;
+    }
+
+    .brand-sub {
+      font-size: 8.5pt;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .doc-meta {
+      text-align: right;
+      font-size: 8.5pt;
+      color: var(--muted);
+    }
+
+    .doc-meta strong {
+      color: var(--navy);
+      display: block;
+      font-size: 9.5pt;
+    }
+
+    .title-block {
+      background: linear-gradient(135deg, #0B192C 0%, #162F48 100%);
+      color: white;
+      padding: 22px 26px;
+      border-radius: 12px;
+      margin-bottom: 22px;
+      border-left: 5px solid var(--teal);
+    }
+
+    .title-block .badge {
+      display: inline-block;
+      background: rgba(13, 148, 136, 0.25);
+      color: #5EEAD4;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      border: 1px solid rgba(94, 234, 212, 0.3);
+    }
+
+    .title-block h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 19pt;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+      color: #FFFFFF;
+    }
+
+    .title-block p {
+      font-size: 9.5pt;
+      color: #CBD5E1;
+      max-width: 650px;
+    }
+
+    h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12.5pt;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 18px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--hairline);
+      padding-bottom: 5px;
+    }
+
+    h2 .num {
+      background: var(--teal);
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8.5pt;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 10.5pt;
+      font-weight: 600;
+      color: var(--navy-light);
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+
+    p {
+      margin-bottom: 8px;
+      color: var(--charcoal);
+      font-size: 9.2pt;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .card {
+      background: var(--bg-light);
+      border: 1px solid var(--hairline);
+      border-radius: 8px;
+      padding: 10px 12px;
+      page-break-inside: avoid;
+    }
+
+    .card.highlight {
+      background: var(--teal-light);
+      border-color: #99F6E4;
+    }
+
+    .card-header {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-tag {
+      font-size: 7pt;
+      padding: 2px 6px;
+      border-radius: 10px;
+      background: #E2E8F0;
+      color: #475569;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .card-tag.teal {
+      background: #CCFBF1;
+      color: #0F766E;
+    }
+
+    .card-body {
+      font-size: 8.5pt;
+      color: #475569;
+      line-height: 1.45;
+    }
+
+    .comparison-box {
+      border: 1px solid var(--hairline);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 8px 0 12px 0;
+      page-break-inside: avoid;
+    }
+
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .comparison-row:last-child {
+      border-bottom: none;
+    }
+
+    .comp-label {
+      background: #F1F5F9;
+      padding: 6px 10px;
+      font-weight: 600;
+      font-size: 8pt;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+    }
+
+    .comp-content {
+      padding: 6px 10px;
+      font-size: 8.2pt;
+      line-height: 1.4;
+    }
+
+    .comp-content.before {
+      background: #FEF2F2;
+      color: #991B1B;
+      text-decoration: line-through;
+    }
+
+    .comp-content.after {
+      background: #F0FDF4;
+      color: #166534;
+      font-weight: 500;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 14px 0;
+      font-size: 8.2pt;
+      page-break-inside: avoid;
+    }
+
+    th {
+      background: #0B192C;
+      color: #FFFFFF;
+      font-weight: 600;
+      text-align: left;
+      padding: 6px 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 7.5pt;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    th:first-child { border-top-left-radius: 6px; }
+    th:last-child { border-top-right-radius: 6px; }
+
+    td {
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--hairline);
+      color: #334155;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td {
+      background: #F8FAFC;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-size: 7pt;
+      font-weight: 600;
+      background: #DCFCE7;
+      color: #15803D;
+    }
+
+    .callout {
+      background: linear-gradient(135deg, #F0FDFA 0%, #E6FFFA 100%);
+      border: 1px solid #99F6E4;
+      border-left: 4px solid var(--teal);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin: 10px 0;
+      font-size: 8.5pt;
+      color: #115E59;
+      page-break-inside: avoid;
+    }
+
+    .callout strong {
+      color: #0F766E;
+    }
+
+    .bullet-list {
+      margin-left: 16px;
+      margin-bottom: 10px;
+      font-size: 8.5pt;
+      color: var(--charcoal);
+    }
+
+    .bullet-list li {
+      margin-bottom: 3px;
+    }
+
+    .doc-footer {
+      margin-top: 18px;
+      padding-top: 8px;
+      border-top: 1px solid var(--hairline);
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.5pt;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header-bar">
+    <div class="brand">
+      <div class="brand-logo">W</div>
+      <div>
+        <div class="brand-name">WINDLEAF</div>
+        <div class="brand-sub">Blade Engineering & Technology Advisory</div>
+      </div>
+    </div>
+    <div class="doc-meta">
+      <strong>Website Updates & Technical Delivery Report</strong>
+      Prepared for: Client & Leadership Review &bull; September 2026
+    </div>
+  </div>
+
+  <!-- Title Banner -->
+  <div class="title-block">
+    <span class="badge">Technical Change Summary</span>
+    <h1>Website Enhancements & Content Architecture Update</h1>
+    <p>Comprehensive record of all client requested content updates, OEM portfolio expansions, tagline refactoring, and UI layout refinements delivered across the Windleaf platform.</p>
+  </div>
+
+  <!-- Executive Summary -->
+  <div class="avoid-break">
+    <h2><span class="num">1</span> Executive Summary</h2>
+    <p>This report documents the full scope of enhancements performed across all six core pages of the Windleaf web application. The core objectives achieved include:</p>
+    <ul class="bullet-list">
+      <li><strong>Accurate Industry Positioning:</strong> Expanded the OEM footprint to represent all 8 major global wind turbine manufacturers and formalized owner-side IPP credentials.</li>
+      <li><strong>Partnership Modernization:</strong> Replaced historical legacy references with our forward-looking European design collaboration narrative.</li>
+      <li><strong>Core Service Definitions:</strong> Overhauled the &ldquo;What We Do&rdquo; service pillars into 9 specialized blade disciplines, rigorous Quality Inspection & Assurance, and Technical Due Diligence (TDD).</li>
+      <li><strong>Information Hierarchy & Taglines:</strong> Completed a sitewide audit ensuring zero repetitive taglines (eyebrows) and harmonizing section titles with clean multi-line typography.</li>
+    </ul>
+  </div>
+
+  <!-- Section 2: Key Content & Brand Updates -->
+  <div class="avoid-break">
+    <h2><span class="num">2</span> Major Content & Brand Positioning Updates</h2>
+
+    <!-- Update A: OEM List -->
+    <h3>A. Complete OEM & Manufacturing Footprint</h3>
+    <p>Standardized Windleaf’s extensive OEM manufacturing and field engineering background across all relevant sections.</p>
+    
+    <div class="comparison-box">
+      <div class="comparison-row">
+        <div class="comp-label">Previous Copy</div>
+        <div class="comp-content before">Suzlon &bull; Vestas &bull; Nordex &bull; Siemens &bull; GE &bull; Goldwind (incomplete and unstandardized)</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comp-label">Delivered Copy</div>
+        <div class="comp-content after">Suzlon &bull; Vestas &bull; Nordex &bull; Goldwind &bull; GE &bull; Siemens Gamesa &bull; RE Technologies &bull; Envision</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comp-label">Where Applied</div>
+        <div class="comp-content">Homepage Experience Card, Services Practice Section, and Core Advantage Cards.</div>
+      </div>
+    </div>
+
+    <!-- Update B: European Collaboration -->
+    <h3>B. European Design Collaboration Narrative</h3>
+    <p>Replaced all legacy references to single Danish design entities with a broadened, strategic partnership statement.</p>
+    <div class="comparison-box">
+      <div class="comparison-row">
+        <div class="comp-label">Previous Copy</div>
+        <div class="comp-content before">Apex Wind Denmark / Collaboration with Apex Wind Denmark</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comp-label">Delivered Copy</div>
+        <div class="comp-content after">Collaboration with European designers / European Design Collaboration</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comp-label">Where Applied</div>
+        <div class="comp-content">Site content profiles, About page milestones, Services blade design text, and Interactive 3D Globe pinpoints.</div>
+      </div>
+    </div>
+
+    <!-- Update C: IPP Experience -->
+    <h3>C. IPP (Owner-Side) Experience Clarification</h3>
+    <p>Formalized the owner-side asset perspective specifically detailing TotalEnergies' multi-energy global footprint.</p>
+    <div class="callout">
+      <strong>Updated Statement:</strong> &ldquo;TotalEnergies acts as a massive Independent Power Producer (IPP), though it is officially classified as a global integrated multi-energy company.&rdquo;
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- Section 3: "What We Do" Service Pillars -->
+  <div class="avoid-break">
+    <h2><span class="num">3</span> Homepage &ldquo;What We Do&rdquo; Service Pillars Overhaul</h2>
+    <p>Restructured the three primary service cards to provide depth and clarity on Windleaf's specialist capabilities:</p>
+
+    <div class="card-grid">
+      <div class="card highlight">
+        <div class="card-header">
+          <span>Card 01 &bull; Blade Engineering & Consulting</span>
+          <span class="card-tag teal">9 Disciplines</span>
+        </div>
+        <div class="card-body">
+          <strong>Comprehensive 9-discipline engineering coverage:</strong><br>
+          1. Blade Design & Engineering Review<br>
+          2. Manufacturing Engineering<br>
+          3. Quality Engineering & Assurance<br>
+          4. Blade Inspection & Condition Assessment<br>
+          5. Structural & Bonding Assessment<br>
+          6. Blade Repair Engineering<br>
+          7. Failure Investigation & Root Cause Analysis<br>
+          8. Technical Due Diligence & Life Extension<br>
+          9. Performance & Digital Engineering
+        </div>
+      </div>
+
+      <div class="card highlight">
+        <div class="card-header">
+          <span>Card 02 &bull; Quality Inspection & Assurance</span>
+          <span class="card-tag teal">Updated</span>
+        </div>
+        <div class="card-body">
+          <strong>Full Lifecycle Quality Rigor:</strong><br>
+          Comprehensive control of materials, manufacturing processes, composite laminates, bonding, dimensions, visual condition, NDT, repairs, documentation, traceability, and final inspection to ensure every component consistently meets specified quality, safety, reliability, and customer requirements.
+        </div>
+      </div>
+    </div>
+
+    <div class="card highlight" style="margin-bottom: 14px;">
+      <div class="card-header">
+        <span>Card 03 &bull; Technical Due Diligence & Advisory (TDD)</span>
+        <span class="card-tag teal">Asset Investment</span>
+      </div>
+      <div class="card-body">
+        Technical Due Diligence (TDD) provides an independent assessment of wind turbine blades, covering design, condition, defects, repairs, structural integrity, performance, remaining life, and technical risks to support informed investment and asset-management decisions.
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Technology & Robotics 3 Pillars -->
+  <div class="avoid-break">
+    <h2><span class="num">4</span> Technology, AI & Robotics Flow Alignment</h2>
+    <p>Established the three-tier operational sequence uniting advanced hardware with independent blade expertise:</p>
+
+    <div style="background: #0B192C; color: white; padding: 14px 18px; border-radius: 8px; margin: 8px 0 12px 0;">
+      <div style="display: flex; justify-content: space-around; text-align: center;">
+        <div>
+          <div style="color: #5EEAD4; font-size: 7.5pt; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">Step 01</div>
+          <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5pt; font-weight: 700; margin-top: 2px;">Technology captures.</div>
+          <div style="font-size: 7.5pt; color: #94A3B8; margin-top: 3px;">Drones, Crawlers & Internal Robotics</div>
+        </div>
+        <div style="border-left: 1px solid rgba(255,255,255,0.15); height: 42px;"></div>
+        <div>
+          <div style="color: #5EEAD4; font-size: 7.5pt; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">Step 02</div>
+          <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5pt; font-weight: 700; margin-top: 2px;">Engineering interprets.</div>
+          <div style="font-size: 7.5pt; color: #94A3B8; margin-top: 3px;">AI Analytics & Senior Specialist Review</div>
+        </div>
+        <div style="border-left: 1px solid rgba(255,255,255,0.15); height: 42px;"></div>
+        <div>
+          <div style="color: #5EEAD4; font-size: 7.5pt; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">Step 03</div>
+          <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5pt; font-weight: 700; margin-top: 2px;">Windleaf delivers.</div>
+          <div style="font-size: 7.5pt; color: #94A3B8; margin-top: 3px;">Actionable Repair Scope & Risk Mitigation</div>
+        </div>
+      </div>
+    </div>
+
+    <p><strong>Refinements Made:</strong></p>
+    <ul class="bullet-list">
+      <li><strong>Typography:</strong> Fixed the headline structure so all 3 core statements display on distinct, bold lines across hero and preview sections.</li>
+      <li><strong>Section Tagline De-duplication:</strong> Replaced repetitive <code>Capabilities</code> eyebrow on the capabilities grid with <strong><code>THREE CORE PILLARS</code></strong>, directly reinforcing the tri-pillar concept without repeating the header.</li>
+    </ul>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- Section 5: Sitewide Tagline Audit Matrix -->
+  <div class="avoid-break">
+    <h2><span class="num">5</span> Sitewide Tagline (Eyebrow) Harmonization Audit</h2>
+    <p>Every single section across the entire web application was inspected to eliminate redundant phrasing between the eyebrow tag and heading (H1/H2). Below is the verified matrix:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 20%;">Page / Route</th>
+          <th style="width: 30%;">Section Heading (H1 / H2)</th>
+          <th style="width: 32%;">Optimized Eyebrow (Tagline)</th>
+          <th style="width: 18%;">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Home</strong> (<code>/</code>)</td>
+          <td>What We Do</td>
+          <td><code>SPECIALIST CAPABILITIES</code></td>
+          <td><span class="status-badge">&check; Distinct</span></td>
+        </tr>
+        <tr>
+          <td><strong>Home</strong> (<code>/</code>)</td>
+          <td>Why should a client trust Windleaf?</td>
+          <td><code>THE WINDLEAF ADVANTAGE</code></td>
+          <td><span class="status-badge">&check; Distinct</span></td>
+        </tr>
+        <tr>
+          <td><strong>Home</strong> (<code>/</code>)</td>
+          <td>Ready to Protect Your Blade Assets?</td>
+          <td><code>NEXT STEPS</code></td>
+          <td><span class="status-badge">&check; Distinct</span></td>
+        </tr>
+        <tr>
+          <td><strong>How We Work</strong> (<code>/how-we-work</code>)</td>
+          <td>Independent, disciplined, end-to-end...</td>
+          <td><code>OUR APPROACH</code></td>
+          <td><span class="status-badge">&check; Distinct</span></td>
+        </tr>
+        <tr>
+          <td><strong>How We Work</strong> (<code>/how-we-work</code>)</td>
+          <td>How We Deliver Every Assignment</td>
+          <td><code>OUR PROCESS</code></td>
+          <td><span class="status-badge">&check; Distinct</span></td>
+        </tr>
+        <tr>
+          <td><strong>How We Work</strong> (<code>/how-we-work</code>)</td>
+          <td>Flexible Ways to Engage</td>
+          <td><code>FLEXIBLE ENGAGEMENT</code></td>
+          <td><span class="status-badge">&check; Distinct</span></td>
+        </tr>
+        <tr>
+          <td><strong>Services</strong> (<code>/services</code>)</td>
+          <td>Specialist blade engineering across every stage...</td>
+          <td><code>LIFECYCLE EXPERTISE</code></td>
+          <td><span class="status-badge">&check; Distinct</span></td>
+        </tr>
+        <tr>
+          <td><strong>Services</strong> (<code>/services</code>)</td>
+          <td>Our Experience Across Practice Areas</td>
+          <td><code>FIELD EXPERIENCE</code></td>
+          <td><span class="status-badge">&check; Distinct</span></td>
+        </tr>
+        <tr>
+          <td><strong>About</strong> (<code>/about</code>)</td>
+          <td>Independent Blade Engineering for Global Wind Energy</td>
+          <td><code>WHO WE ARE</code></td>
+          <td><span class="status-badge">&check; Distinct</span></td>
+        </tr>
+        <tr>
+          <td><strong>About</strong> (<code>/about</code>)</td>
+          <td>Track Record Across the Lifecycle</td>
+          <td><code>INDUSTRY BACKGROUND</code></td>
+          <td><span class="status-badge">&check; Distinct</span></td>
+        </tr>
+        <tr>
+          <td><strong>About</strong> (<code>/about</code>)</td>
+          <td>Our Guiding Principles</td>
+          <td><code>WHAT DRIVES US</code></td>
+          <td><span class="status-badge">&check; Distinct</span></td>
+        </tr>
+        <tr>
+          <td><strong>Technology</strong> (<code>/ai-automation-robotics</code>)</td>
+          <td>Current & Developing Capabilities</td>
+          <td><code>THREE CORE PILLARS</code></td>
+          <td><span class="status-badge">&check; Distinct</span></td>
+        </tr>
+        <tr>
+          <td><strong>Contact</strong> (<code>/contact</code>)</td>
+          <td>Start a Conversation with Our Blade Engineers</td>
+          <td><code>GET IN TOUCH</code></td>
+          <td><span class="status-badge">&check; Distinct</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 6: UI & Visual Polish -->
+  <div class="avoid-break">
+    <h2><span class="num">6</span> UI & Layout Refinements</h2>
+    <ul class="bullet-list">
+      <li><strong>Desktop Single-Line Containment:</strong> Formatted <em>&ldquo;Why should a client trust Windleaf?&rdquo;</em> to display seamlessly on a single line on desktop and tablet screens, preserving visual prestige.</li>
+      <li><strong>Component Flexibility:</strong> Upgraded the core <code>SectionHeading</code> component to dynamically accept custom styling and line-break wrappers without breaking accessibility or semantic SEO.</li>
+      <li><strong>Gallery Image Cache Optimization:</strong> Replaced local gallery placeholder imagery with dedicated high-resolution blade manufacturing assets, bypassing Next.js internal image caching with optimized cache busters.</li>
+    </ul>
+  </div>
+
+  <!-- Section 7: Delivery & Package -->
+  <div class="avoid-break">
+    <h2><span class="num">7</span> Developer Handoff Package</h2>
+    <div class="callout">
+      <strong>Ready for Immediate Integration:</strong><br>
+      A complete, lightweight ZIP archive containing all modified source files, components, and media assets has been prepared for the development team at:<br>
+      <code>C:\Users\admin\Downloads\windleaf-updated-source.zip</code> (~6.4 MB)
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="doc-footer">
+    <span>Windleaf Engineering &bull; Confidential &bull; Prepared for Client Presentation</span>
+    <span>Generated: September 29, 2026</span>
+  </div>
+
+</body>
+</html>

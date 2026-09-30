@@ -498,31 +498,31 @@ export const DESIGN_BOXES = [
   },
 ]
 
-// Services gallery — captions from SEO image descriptions, imagery from Unsplash
+// Services gallery — field experience images
 export const GALLERY = [
   {
     caption: 'Blade manufacturing & process engineering',
-    img: 'https://images.unsplash.com/photo-1548337138-e87d889cc369?w=900&h=650&fit=crop&auto=format',
+    img: '/work-blade-manufacturing.jpg',
     alt: 'Blade manufacturing and process engineering — Windleaf project work',
   },
   {
     caption: 'Manufacturing audits & surveillance',
-    img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=900&h=650&fit=crop&auto=format',
+    img: '/work-manufacturing-audits.jpg',
     alt: 'Manufacturing audits and surveillance — Windleaf project work',
   },
   {
     caption: 'Blade inspection & defect assessment',
-    img: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=900&h=650&fit=crop&auto=format',
+    img: '/work-blade-inspection.jpg',
     alt: 'Blade inspection and defect assessment — Windleaf project work',
   },
   {
     caption: 'Repair & failure analysis',
-    img: 'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=900&h=650&fit=crop&auto=format',
+    img: '/work-repair-failure-analysis.jpg',
     alt: 'Repair and failure analysis — Windleaf project work',
   },
   {
     caption: 'Technical due diligence',
-    img: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&h=650&fit=crop&auto=format',
+    img: '/work-technical-due-diligence.jpg',
     alt: 'Technical due diligence — Windleaf project work',
   },
   {
@@ -563,7 +563,7 @@ export type CapabilityStatus =
 
 export type Capability = {
   title: string
-  status: CapabilityStatus
+  status: 'Current capability' | 'Current & developing' | 'In development' | 'Core capability'
   body: string
 }
 
@@ -584,6 +584,15 @@ export const INNOVATION_LIST = [
   'Ultrasonic & non-destructive bonding effectiveness assessment',
 ]
 
+
+export type CapabilityPillar = {
+  num: string
+  title: string
+  tagline: string
+  accent: string
+  capabilities: Capability[]
+  deliverable: string
+}
 
 export const CAPABILITY_PILLARS: CapabilityPillar[] = [
   {

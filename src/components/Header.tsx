@@ -11,17 +11,15 @@ function NavLink({ label, to, active }: { label: string; to: string; active: boo
   return (
     <Link
       href={to}
-      className={`group relative rounded-lg px-3.5 py-2 text-sm font-semibold transition-all duration-300 ${
-        active ? 'bg-teal/10 text-teal' : 'text-navy/80 hover:bg-teal/8 hover:text-teal'
-      }`}
+      className={`group relative rounded-lg px-3.5 py-2 text-sm font-semibold transition-all duration-300 ${active ? 'bg-teal/10 text-teal' : 'text-navy/80 hover:bg-teal/8 hover:text-teal'
+        }`}
     >
       <span className="relative z-10">{label}</span>
       <span
-        className={`absolute bottom-1 left-3 right-3 h-[2px] rounded-full bg-teal transition-all duration-300 ${
-          active
+        className={`absolute bottom-1 left-3 right-3 h-[2px] rounded-full bg-teal transition-all duration-300 ${active
             ? 'scale-x-100 opacity-100'
             : 'scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100'
-        }`}
+          }`}
       />
     </Link>
   )
@@ -64,9 +62,8 @@ function MobileMenu({
   return (
     <div
       aria-hidden={!open}
-      className={`fixed inset-0 z-50 flex flex-col transition-all duration-500 lg:hidden ${
-        open ? 'pointer-events-auto' : 'pointer-events-none'
-      }`}
+      className={`fixed inset-0 z-50 flex flex-col transition-all duration-500 lg:hidden ${open ? 'pointer-events-auto' : 'pointer-events-none'
+        }`}
       style={{
         background: 'linear-gradient(135deg, #052f45 0%, #063a52 60%, #031e2e 100%)',
         opacity: open ? 1 : 0,
@@ -104,9 +101,8 @@ function MobileMenu({
               key={item.to}
               href={item.to}
               onClick={onClose}
-              className={`group flex items-center gap-5 rounded-xl px-4 py-4 transition-all duration-200 ${
-                isActive ? 'bg-white/8' : 'hover:bg-white/5'
-              }`}
+              className={`group flex items-center gap-5 rounded-xl px-4 py-4 transition-all duration-200 ${isActive ? 'bg-white/8' : 'hover:bg-white/5'
+                }`}
               style={{
                 transform: open ? 'none' : 'translateX(-20px)',
                 opacity: open ? 1 : 0,
@@ -174,11 +170,10 @@ export function Header() {
   return (
     <>
       <header
-        className={`sticky top-0 z-40 transition-all duration-300 ${
-          scrolled
+        className={`sticky top-0 z-40 transition-all duration-300 ${scrolled
             ? 'border-b border-hairline/80 bg-white/90 py-0 shadow-md shadow-navy/5 backdrop-blur-md'
             : 'border-b border-hairline bg-white py-0.5'
-        }`}
+          }`}
       >
         <div className="mx-auto flex h-[68px] w-full max-w-7xl items-center justify-between px-6 lg:px-10">
           <Logo />

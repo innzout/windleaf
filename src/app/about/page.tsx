@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { SEO, EXPERIENCE, VALUES, COUNTRY_COUNT } from '@/content/site'
 import { Button, Section, SectionHeading, stagger } from '@/components/ui'
 import { PageHero, ClosingCTA } from '@/components/sections'
@@ -28,23 +29,27 @@ export default function AboutPage() {
           <div className="reveal-left">
             <SpotlightCard
               spotlightColor="rgba(0, 194, 168, 0.2)"
-              className="relative overflow-hidden rounded-2xl border-2 border-teal/30 bg-mist shadow-sm"
+              className="group relative overflow-hidden rounded-2xl border-2 border-teal/30 bg-mist shadow-lg"
             >
-              <div className="flex aspect-[4/5] items-center justify-center bg-gradient-to-br from-mist via-soft to-sky/10">
-                <div className="text-center">
-                  <div className="mx-auto flex h-28 w-28 items-center justify-center rounded-full bg-navy font-display text-4xl font-semibold text-leaf shadow-lg ring-4 ring-teal/20 transition-transform duration-300 group-hover:scale-105">
-                    KM
-                  </div>
-                  <p className="mt-5 font-display text-base font-semibold text-navy">
+              <div className="relative aspect-[4/5] w-full overflow-hidden bg-mist">
+                <Image
+                  src="/founder-k-muruga-ganesh.png"
+                  alt="K. Muruga Ganesh — Founder & CEO | Wind Turbine Blade Engineering & Manufacturing Specialist"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/20 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                  <p className="font-display text-xl font-bold tracking-tight text-white drop-shadow-sm">
                     K. Muruga Ganesh
                   </p>
-                  <p className="mt-1 px-6 text-xs font-medium text-charcoal/50">Founder &amp; CEO</p>
-                  <p className="mt-4 px-6 text-xs font-medium uppercase tracking-wider text-teal/60">
-                    Photo to be provided
+                  <p className="mt-1 text-sm font-medium text-teal drop-shadow-sm">
+                    Founder &amp; CEO
                   </p>
                 </div>
               </div>
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-teal/5 to-transparent" />
             </SpotlightCard>
           </div>
           <div className="reveal-right">
