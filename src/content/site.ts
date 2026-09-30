@@ -585,15 +585,6 @@ export const INNOVATION_LIST = [
 ]
 
 
-export type CapabilityPillar = {
-  num: string
-  title: string
-  tagline: string
-  accent: string
-  capabilities: Capability[]
-  deliverable: string
-}
-
 export const CAPABILITY_PILLARS: CapabilityPillar[] = [
   {
     num: '01',
