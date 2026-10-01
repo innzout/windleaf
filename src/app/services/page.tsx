@@ -14,55 +14,99 @@ export const metadata: Metadata = {
 }
 
 const PROJECT_EXAMPLES = [
-  [
-    { field: 'Client type', value: 'IPP / Energy Developer' },
-    { field: 'Country', value: 'China' },
-    { field: 'Service', value: 'Technical Due Diligence (TDD) & Blade Factory Qualification' },
-    {
-      field: 'The challenge',
-      value:
-        'Assessment of blade manufacturing capability and associated technical risks for a 1 GW wind project, including manufacturing readiness and supply-chain capability.',
-    },
-    {
-      field: 'What we did',
-      value:
-        'Supported blade factory qualification and technical due diligence of manufacturing options. Assessed manufacturing capabilities and readiness, identified technical risks and supported risk mitigation through structured RCA / 8D methodology.',
-    },
-    {
-      field: 'The outcome',
-      value:
-        'Provided independent technical input supporting blade factory qualification, manufacturing-readiness assessment and project risk mitigation.',
-    },
-  ],
-  [
-    { field: 'Client type', value: 'IPP / Energy Developer' },
-    { field: 'Country', value: 'China → South Africa' },
-    { field: 'Service', value: 'Blade Manufacturing Surveillance & Process Audit' },
-    {
-      field: 'The challenge',
-      value:
-        'Ensure that blade manufacturing processes and product quality at the manufacturing location in China were aligned with the technical requirements of a South African wind project.',
-    },
-    {
-      field: 'What we did',
-      value:
-        'Conducted manufacturing surveillance and process audits, reviewed critical blade manufacturing processes and quality aspects, and provided technical engineering inputs and follow-up during project execution.',
-    },
-    {
-      field: 'The outcome',
-      value:
-        'Provided independent technical surveillance and process-engineering support connecting China-based blade manufacturing with the South African project, supporting manufacturing quality and project execution.',
-    },
-  ],
-]
+  {
+    number: '01',
+    title: 'GW WIND PROJECT',
+    country: 'China',
+    service: 'Technical Due Diligence & Factory Qualification',
+    need:
+      'Assess blade manufacturing capability, readiness and technical risks before project execution.',
+    support: [
+      'Blade factory qualification',
+      'TDD',
+      'Manufacturing capability assessment',
+      'Quality-system review',
+      'Risk mitigation',
+    ],
+    outcome:
+      'Independent technical assessment supporting manufacturing readiness and project risk mitigation.',
+  },
 
+  {
+    number: '02',
+    title: 'SASOL WIND PROJECT',
+    country: 'China → South Africa',
+    service: 'Manufacturing Surveillance',
+    need:
+      'Ensure blades manufactured in China met the technical and quality requirements of the South African project.',
+    support: [
+      'Manufacturing surveillance',
+      'Process audit',
+      'Blade quality assessment',
+      'Technical follow-up',
+    ],
+    outcome:
+      'Independent factory oversight connecting manufacturing execution with project requirements and delivery readiness.',
+  },
+
+  {
+    number: '03',
+    title: 'RIYAH WIND PROJECT',
+    country: 'Oman',
+    service: 'Blade Inspection & Repair Assessment',
+    need:
+      'Verify blade condition and repair readiness before commissioning.',
+    support: [
+      'Blade inspection',
+      'Defect assessment',
+      'Structural repair analysis',
+      'Technical evaluation',
+    ],
+    outcome:
+      'Independent engineering input supporting blade quality verification and pre-commissioning readiness.',
+  },
+
+  {
+    number: '04',
+    title: 'HORSE WIND PROJECT',
+    country: 'India',
+    service: 'IPP-Side Blade Engineering',
+    need:
+      'Independent technical assessment of Nordex blades for the IPP project.',
+    support: [
+      'Blade inspection',
+      'Defect assessment',
+      'Technical review',
+      'Engineering decision support',
+    ],
+    outcome:
+      'IPP-side engineering support for blade quality assessment and project readiness.',
+  },
+
+  {
+    number: '05',
+    title: 'TOTALENERGIES',
+    country: '2025–2026',
+    service: 'Independent IPP Blade Engineering Support',
+    need:
+      'Provide blade engineering support from the IPP perspective across active wind projects.',
+    support: [
+      'Blade inspection',
+      'Repair assessment',
+      'Technical review',
+      'Engineering support',
+    ],
+    outcome:
+      'Independent technical input supporting blade quality, repair decisions and project execution.',
+  },
+]
 export default function ServicesPage() {
   return (
     <>
       <PageHero
         eyebrow="Lifecycle Expertise"
         title="Blade Engineering Services Across the Lifecycle"
-        sub="Independent, specialist support for Wind Farm Owners, IPPs, Investors and OEMs — from design and manufacturing to inspection, repair and training."
+        sub="Independent, Expert support for Wind Farm Owners, IPPs, Investors and OEMs — from design and manufacturing to inspection, repair and training."
         bgImg="/services-wind-farm-sunset.jpg"
       />
 
@@ -113,31 +157,76 @@ export default function ServicesPage() {
             example never forces a layout decision and the interaction matches
             the service chips above. */}
         <ScrollRail label="project examples" step={520} className="mt-10">
-          {PROJECT_EXAMPLES.map((rows, n) => (
-            <div
-              key={n}
+          {PROJECT_EXAMPLES.map((project, n) => (
+            <article
+              key={project.number}
               className="reveal-up w-[88vw] max-w-[560px] shrink-0 snap-start overflow-hidden rounded-2xl border border-hairline bg-white transition-shadow duration-300 hover:shadow-lg hover:shadow-navy/10 sm:w-[70vw] lg:w-[calc(50%-0.75rem)]"
               style={stagger(n)}
             >
-              <div className="flex items-center justify-between bg-navy px-6 py-3">
-                <span className="text-sm font-semibold text-white">Project  {n + 1}</span>
-                <span className="text-xs font-medium text-leaf">{rows[1].value}</span>
+              {/* Header */}
+              <div className="bg-navy px-6 py-4">
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-xs font-bold tracking-widest text-leaf">
+                    {project.number}
+                  </span>
+
+                  <span className="text-xs font-medium text-white/60">
+                    {project.country}
+                  </span>
+                </div>
+
+                <h3 className="mt-2 font-display text-lg font-semibold text-white">
+                  {project.title}
+                </h3>
+
+                <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  {project.service}
+                </p>
               </div>
-              {/* Rows stack on a phone: a fixed 140px label column left under
-                  160px for the value, which broke every word onto its own
-                  line. */}
-              <dl className="divide-y divide-hairline">
-                {rows.map((row) => (
-                  <div
-                    key={row.field}
-                    className="grid gap-1 px-6 py-3.5 sm:grid-cols-[140px_1fr] sm:gap-4"
-                  >
-                    <dt className="text-sm font-semibold text-navy">{row.field}</dt>
-                    <dd className="text-sm leading-relaxed text-charcoal/70">{row.value}</dd>
+
+              {/* Content */}
+              <div className="divide-y divide-hairline">
+                {/* Project Need */}
+                <div className="px-6 py-5">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-teal">
+                    Project Need
+                  </span>
+
+                  <p className="mt-2 text-sm leading-relaxed text-charcoal/75">
+                    {project.need}
+                  </p>
+                </div>
+
+                {/* Windleaf Support */}
+                <div className="px-6 py-5">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-teal">
+                    Windleaf Support
+                  </span>
+
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {project.support.map((item) => (
+                      <span
+                        key={item}
+                        className="rounded-md border border-teal/20 bg-teal/[0.06] px-2.5 py-1 text-[11px] font-medium text-[#0d6d70]"
+                      >
+                        {item}
+                      </span>
+                    ))}
                   </div>
-                ))}
-              </dl>
-            </div>
+                </div>
+
+                {/* Value Delivered */}
+                <div className="px-6 py-5">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-teal">
+                    Value Delivered
+                  </span>
+
+                  <p className="mt-2 text-sm leading-relaxed text-charcoal/75">
+                    {project.outcome}
+                  </p>
+                </div>
+              </div>
+            </article>
           ))}
         </ScrollRail>
         <div className="mt-8">

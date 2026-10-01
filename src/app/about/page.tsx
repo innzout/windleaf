@@ -34,7 +34,7 @@ export default function AboutPage() {
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-mist">
                 <Image
                   src="/founder-k-muruga-ganesh.png"
-                  alt="K. Muruga Ganesh — Founder & CEO | Wind Turbine Blade Engineering & Manufacturing Specialist"
+                  alt="K. Muruga Ganesh Kasi Rajan — Founder & CEO | Independent Wind Turbine Blade Engineering & Consulting "
                   fill
                   sizes="(max-width: 1024px) 100vw, 40vw"
                   className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
@@ -43,7 +43,7 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/20 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 text-white">
                   <p className="font-display text-xl font-bold tracking-tight text-white drop-shadow-sm">
-                    K. Muruga Ganesh
+                    K. Muruga Ganesh Kasi Rajan
                   </p>
                   <p className="mt-1 text-sm font-medium text-teal drop-shadow-sm">
                     Founder &amp; CEO
@@ -53,9 +53,9 @@ export default function AboutPage() {
             </SpotlightCard>
           </div>
           <div className="reveal-right">
-            <h2 className="text-4xl font-semibold sm:text-5xl">K. Muruga Ganesh</h2>
+            <h2 className="text-4xl font-semibold sm:text-5xl">K. Muruga Ganesh Kasi Rajan</h2>
             <p className="mt-2 text-base font-semibold text-teal sm:text-lg">
-              Founder &amp; CEO | Wind Turbine Blade Engineering &amp; Manufacturing Specialist
+              Founder & CEO | Independent Wind Turbine Blade Engineering & Consulting 
             </p>
 
             <div className="mt-6 space-y-4 text-lg leading-relaxed text-charcoal/75">
@@ -64,7 +64,7 @@ export default function AboutPage() {
               </p>
 
               <p>
-                K. Muruga Ganesh has worked across OEM, IPP, and independent engineering environments, providing technical expertise throughout the blade lifecycle — from supplier qualification, manufacturing and quality assurance to inspection, defect assessment, repair, and structural evaluation.
+                K. Muruga Ganesh Kasi Rajan has worked across OEM, IPP, and independent engineering environments, providing technical expertise throughout the blade lifecycle — from supplier qualification, manufacturing and quality assurance to inspection, defect assessment, repair, and structural evaluation.
               </p>
 
               <p>

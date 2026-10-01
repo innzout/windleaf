@@ -171,9 +171,8 @@ function GlobeCanvas({ onHover, onSelect, sceneRef, className = '' }: CanvasProp
     <>
       <div
         ref={mountRef}
-        className={`h-full w-full cursor-grab transition-opacity duration-1000 active:cursor-grabbing ${
-          revealed ? 'opacity-100' : 'opacity-0'
-        } ${className}`}
+        className={`h-full w-full cursor-grab transition-opacity duration-1000 active:cursor-grabbing ${revealed ? 'opacity-100' : 'opacity-0'
+          } ${className}`}
         aria-label="Interactive 3D globe of Windleaf project locations. Drag to rotate."
         role="img"
       />
@@ -293,17 +292,15 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
                   const first = COUNTRIES.find((c) => (item === 'All' ? c.isHq : c.region === item))
                   if (first) focus(first)
                 }}
-                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all duration-200 ${
-                  selected
-                    ? 'bg-navy text-white shadow-sm'
-                    : 'text-charcoal/70 hover:bg-mist hover:text-navy'
-                }`}
+                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all duration-200 ${selected
+                  ? 'bg-navy text-white shadow-sm'
+                  : 'text-charcoal/70 hover:bg-mist hover:text-navy'
+                  }`}
               >
                 <span>{item}</span>
                 <span
-                  className={`rounded-full px-1.5 text-[10px] ${
-                    selected ? 'bg-white/20 text-white' : 'bg-charcoal/10 text-charcoal/60'
-                  }`}
+                  className={`rounded-full px-1.5 text-[10px] ${selected ? 'bg-white/20 text-white' : 'bg-charcoal/10 text-charcoal/60'
+                    }`}
                 >
                   {count}
                 </span>
@@ -317,11 +314,10 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
             type="button"
             onClick={() => setAutoRotate((value) => !value)}
             aria-pressed={autoRotate}
-            className={`flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition-all ${
-              autoRotate
-                ? 'border-teal/40 bg-teal/10 text-teal'
-                : 'border-hairline bg-white text-charcoal/60 hover:text-navy'
-            }`}
+            className={`flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition-all ${autoRotate
+              ? 'border-teal/40 bg-teal/10 text-teal'
+              : 'border-hairline bg-white text-charcoal/60 hover:text-navy'
+              }`}
           >
             <span
               className={`h-2 w-2 rounded-full ${autoRotate ? 'animate-pulse bg-teal' : 'bg-charcoal/40'}`}
@@ -333,11 +329,10 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
             type="button"
             onClick={() => setShowArcs((value) => !value)}
             aria-pressed={showArcs}
-            className={`flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition-all ${
-              showArcs
-                ? 'border-green/40 bg-green/10 text-forest'
-                : 'border-hairline bg-white text-charcoal/60 hover:text-navy'
-            }`}
+            className={`flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition-all ${showArcs
+              ? 'border-green/40 bg-green/10 text-forest'
+              : 'border-hairline bg-white text-charcoal/60 hover:text-navy'
+              }`}
           >
             <span
               className={`h-2 w-2 rounded-full ${showArcs ? 'animate-pulse bg-green' : 'bg-charcoal/40'}`}
@@ -348,86 +343,100 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
       </div>
 
       <div className="relative">
-      {/* ── WebGL viewport ──────────────────────────────────────── */}
-      <div
-        className="relative w-full overflow-hidden rounded-3xl border border-navy/20 shadow-2xl"
-        style={{
-          aspectRatio: '16/9',
-          minHeight: '460px',
-          maxHeight: '640px',
-          background:
-            'radial-gradient(circle at 50% 45%, #0a3348 0%, #051f2e 55%, #020d16 100%)',
-        }}
-      >
-        <GlobeCanvas
-          sceneRef={attachScene}
-          onHover={setHoveredCountry}
-          onSelect={focus}
-        />
+        {/* ── WebGL viewport ──────────────────────────────────────── */}
+        <div
+          className="relative w-full overflow-hidden rounded-3xl border border-navy/20 shadow-2xl"
+          style={{
+            aspectRatio: '16/9',
+            minHeight: '460px',
+            maxHeight: '640px',
+            background:
+              'radial-gradient(circle at 50% 45%, #0a3348 0%, #051f2e 55%, #020d16 100%)',
+          }}
+        >
+          <GlobeCanvas
+            sceneRef={attachScene}
+            onHover={setHoveredCountry}
+            onSelect={focus}
+          />
 
-        {/* Coordinate HUD */}
-        <div className="pointer-events-none absolute left-5 top-5 z-20 hidden flex-col gap-0.5 rounded-xl border border-white/10 bg-navy/60 px-3 py-2 font-mono text-[10px] text-white/60 backdrop-blur-md sm:flex">
-          <span className="font-semibold tracking-wider text-teal">● LIVE ORBIT VIEW</span>
-          <span>{formatCoords(display)}</span>
-          <span className="text-white/40">DRAG TO ROTATE · CLICK A BEACON</span>
-        </div>
+          {/* Coordinate HUD */}
+          <div className="pointer-events-none absolute left-5 top-5 z-20 hidden flex-col gap-0.5 rounded-xl border border-white/10 bg-navy/60 px-3 py-2 font-mono text-[10px] text-white/60 backdrop-blur-md sm:flex">
+            <span className="font-semibold tracking-wider text-teal">● LIVE ORBIT VIEW</span>
+            <span>{formatCoords(display)}</span>
+            <span className="text-white/40">DRAG TO ROTATE · CLICK A BEACON</span>
+          </div>
 
-        {/* Legend */}
-        <div className="pointer-events-none absolute bottom-4 left-4 z-20 hidden items-center gap-4 rounded-xl border border-white/10 bg-navy/60 px-3.5 py-2 text-[11px] text-white/70 backdrop-blur-md md:flex">
-          <div className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-white shadow-[0_0_8px_#ffffff]" />
-            <span>Singapore Global HQ</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-teal shadow-[0_0_8px_#00c2a8]" />
-            <span>European Design Collaboration</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="h-2 w-2 rounded-full bg-green shadow-[0_0_6px_#2dbe60]" />
-            <span>Project Sites</span>
-          </div>
-          <span className="h-3 w-px bg-white/15" />
-          <div className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full border-2 border-sun" />
-            <span>Hover</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="h-3 w-3 rounded-full border-2 border-leaf" />
-            <span>Selected</span>
+          {/* Legend */}
+          <div className="pointer-events-none absolute bottom-4 left-4 z-20 hidden items-center gap-4 rounded-xl border border-white/10 bg-navy/60 px-3.5 py-2 text-[11px] text-white/70 backdrop-blur-md md:flex">
+            <div className="flex items-center gap-1.5">
+              <span className="h-2.5 w-2.5 rounded-full bg-white shadow-[0_0_8px_#ffffff]" />
+              <span>India Global HQ</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="h-2.5 w-2.5 rounded-full bg-teal shadow-[0_0_8px_#00c2a8]" />
+              <span>European Design Collaboration</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-full bg-green shadow-[0_0_6px_#2dbe60]" />
+              <span>Project Sites</span>
+            </div>
+            <span className="h-3 w-px bg-white/15" />
+            <div className="flex items-center gap-1.5">
+              <span className="h-2.5 w-2.5 rounded-full border-2 border-sun" />
+              <span>Hover</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="h-3 w-3 rounded-full border-2 border-leaf" />
+              <span>Selected</span>
+            </div>
           </div>
         </div>
-      </div>
 
         {/* Detail inspector — below the globe on mobile, overlaid on large screens */}
         <div className="mt-4 flex lg:pointer-events-none lg:absolute lg:bottom-6 lg:left-4 lg:right-6 lg:z-30 lg:mt-0 lg:justify-end">
           <div
-            className={`pointer-events-auto w-full max-w-sm rounded-2xl border border-l-4 border-white/20 bg-navy/85 p-5 shadow-2xl backdrop-blur-xl transition-all duration-300 ${
-              isPreview ? 'border-l-sun' : 'border-l-leaf'
-            }`}
+            className={`pointer-events-auto w-full max-w-sm rounded-2xl border border-l-4 border-white/20 bg-navy/85 p-5 shadow-2xl backdrop-blur-xl transition-all duration-300 ${isPreview ? 'border-l-sun' : 'border-l-leaf'
+              }`}
           >
+            {/* Header */}
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="flex items-center gap-3">
-                <Flag emoji={display.flag} name={display.name} className="h-6 w-9" />
+                <Flag
+                  emoji={display.flag}
+                  name={display.name}
+                  className="h-6 w-9"
+                />
+
                 <div>
                   <div className="flex items-center gap-2">
-                    <h4 className="font-display text-lg font-bold text-white">{display.name}</h4>
+                    <h4 className="font-display text-lg font-bold text-white">
+                      {display.name}
+                    </h4>
+
                     {display.isHq && (
                       <span className="rounded-full bg-leaf px-2 py-0.5 text-[10px] font-bold text-navy">
                         Global HQ
                       </span>
                     )}
+
                     {display.isAlliance && (
                       <span className="rounded-full bg-teal px-2 py-0.5 text-[10px] font-bold text-navy">
                         Alliance
                       </span>
                     )}
                   </div>
+
                   <div className="flex items-center gap-2">
-                    <p className="text-xs font-medium text-teal/80">{display.region}</p>
+                    <p className="text-xs font-medium text-teal/80">
+                      {display.region}
+                    </p>
+
                     <span
-                      className={`rounded px-1.5 py-px text-[9px] font-bold uppercase tracking-wider ${
-                        isPreview ? 'bg-sun text-navy' : 'bg-leaf text-navy'
-                      }`}
+                      className={`rounded px-1.5 py-px text-[9px] font-bold uppercase tracking-wider ${isPreview
+                        ? 'bg-sun text-navy'
+                        : 'bg-leaf text-navy'
+                        }`}
                     >
                       {isPreview ? 'Preview' : 'Selected'}
                     </span>
@@ -435,6 +444,7 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
                 </div>
               </div>
 
+              {/* Navigation */}
               <div className="flex items-center gap-1">
                 <button
                   type="button"
@@ -444,6 +454,7 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
                 >
                   ←
                 </button>
+
                 <button
                   type="button"
                   onClick={() => focus(step(display, 1))}
@@ -455,26 +466,32 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
               </div>
             </div>
 
+            {/* Engineering Scope */}
             <div className="mt-3">
               <span className="text-[10px] font-semibold uppercase tracking-wider text-white/50">
                 Core Engineering Scope
               </span>
-              <div className="mt-1.5 flex flex-wrap gap-1.5">
-                {display.services.map((service) => (
-                  <span
-                    key={service}
-                    className="rounded-md border border-teal/30 bg-teal/10 px-2 py-0.5 text-[11px] font-medium text-teal"
+
+              <div className="mt-2 max-h-56 space-y-2 overflow-y-auto pr-1">
+                {display.card.map((item) => (
+                  <div
+                    key={item}
+                    className="border-l border-teal/30 pl-3"
                   >
-                    {service}
-                  </span>
+                    <h5 className="text-[11px] font-semibold text-teal">
+                      {item}
+                    </h5>
+                  </div>
                 ))}
               </div>
             </div>
 
-            <p className="mt-3 text-xs leading-relaxed text-white/80">{display.detail}</p>
-
+            {/* Footer */}
             <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-2">
-              <span className="text-[11px] text-white/40">Active Project Network</span>
+              <span className="text-[11px] text-white/40">
+                Active Project Network
+              </span>
+
               <Link
                 href="/contact"
                 className="inline-flex items-center gap-1 text-xs font-semibold text-leaf transition-colors hover:text-green"
@@ -502,49 +519,48 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
         {filtered.map((country) => {
           const selected = activeCountry.name === country.name
           return (
-                  <button
-                    key={country.name}
-                    type="button"
-                    onClick={() => focus(country)}
-                    onMouseEnter={() => preview(country)}
-                    onMouseLeave={() => preview(null)}
-                    onFocus={() => preview(country)}
-                    onBlur={() => preview(null)}
-                    aria-pressed={selected}
-                    className={`group flex shrink-0 snap-start items-center gap-2.5 rounded-xl border px-4 py-2.5 text-left transition-all duration-200 ${
-                      selected
-                        ? 'border-navy bg-navy text-white shadow-md shadow-navy/20'
-                        : 'border-hairline bg-white hover:border-teal hover:bg-teal/8'
-                    }`}
-                  >
-                    <Flag emoji={country.flag} name={country.name} className="h-4 w-6" />
-                    <span className="flex flex-col leading-tight">
-                      <span
-                        className={`text-xs font-semibold ${selected ? 'text-white' : 'text-navy'}`}
-                      >
-                        {country.name}
-                      </span>
-                      <span
-                        className={`text-[11px] ${selected ? 'text-white/70' : 'text-charcoal/60'}`}
-                      >
-                        {country.services.join(' / ')}
-                      </span>
-                    </span>
-                    {country.isHq && (
-                      <span
-                        className={`rounded px-1 text-[9px] font-bold ${selected ? 'bg-sun text-navy' : 'bg-sun/20 text-navy'}`}
-                      >
-                        HQ
-                      </span>
-                    )}
-                    {country.isAlliance && (
-                      <span
-                        className={`rounded px-1 text-[9px] font-bold ${selected ? 'bg-teal text-navy' : 'bg-teal/20 text-teal'}`}
-                      >
-                        Alliance
-                      </span>
-                    )}
-                  </button>
+            <button
+              key={country.name}
+              type="button"
+              onClick={() => focus(country)}
+              onMouseEnter={() => preview(country)}
+              onMouseLeave={() => preview(null)}
+              onFocus={() => preview(country)}
+              onBlur={() => preview(null)}
+              aria-pressed={selected}
+              className={`group flex shrink-0 snap-start items-center gap-2.5 rounded-xl border px-4 py-2.5 text-left transition-all duration-200 ${selected
+                ? 'border-navy bg-navy text-white shadow-md shadow-navy/20'
+                : 'border-hairline bg-white hover:border-teal hover:bg-teal/8'
+                }`}
+            >
+              <Flag emoji={country.flag} name={country.name} className="h-4 w-6" />
+              <span className="flex flex-col leading-tight">
+                <span
+                  className={`text-xs font-semibold ${selected ? 'text-white' : 'text-navy'}`}
+                >
+                  {country.name}
+                </span>
+                <span
+                  className={`text-[11px] ${selected ? 'text-white/70' : 'text-charcoal/60'}`}
+                >
+                  {country.capabilities.map((capability) => capability.title).join(' / ')}
+                </span>
+              </span>
+              {country.isHq && (
+                <span
+                  className={`rounded px-1 text-[9px] font-bold ${selected ? 'bg-sun text-navy' : 'bg-sun/20 text-navy'}`}
+                >
+                  HQ
+                </span>
+              )}
+              {country.isAlliance && (
+                <span
+                  className={`rounded px-1 text-[9px] font-bold ${selected ? 'bg-teal text-navy' : 'bg-teal/20 text-teal'}`}
+                >
+                  Alliance
+                </span>
+              )}
+            </button>
           )
         })}
       </ScrollRail>

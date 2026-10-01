@@ -58,7 +58,7 @@ File structure under `src/`:
   experience strip + "not a client list" note) → What We Do (3 cards) → Why Choose Windleaf
   (6 reasons grid) → Technology Preview (compact TechFlow) → closing CTA "Facing a Critical
   Blade Decision?".
-- **About**: hero → Founder (K. Muruga Ganesh, title, 3 paras, photo placeholder) →
+- **About**: hero → Founder (K. Muruga Ganesh Kasi Rajan, title, 3 paras, photo placeholder) →
   Professional Experience (3 large cards) → Global Project Experience Map (11 countries +
   chip list + text) → Technical Philosophy → Vision → Core Values (4 points) + CTA.
 - **Services**: hero + quick-link nav (8 anchors incl. "Our Work in Practice") → Our Work in

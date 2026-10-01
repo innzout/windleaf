@@ -30,7 +30,7 @@ export const EVENT = {
 export const EXPERIENCE = [
   {
     title: 'OEM & Manufacturing Experience',
-    body: 'Suzlon · Vestas · Nordex · Goldwind · GE · Siemens Gamesa · RE Technologies · Envision',
+    body: 'Suzlon · Vestas · SANY · WinWind · Nordex · Goldwind · GE · Siemens Gamesa · RE Technologies · Envision',
   },
   {
     title: 'Independent Engineering Experience',
@@ -101,16 +101,22 @@ export type Region = 'Asia-Pacific' | 'Europe' | 'Americas' | 'Middle East & Afr
 
 export type Country = {
   name: string
+
   /** Real-world geographic coordinates, used to place markers on the 3D globe. */
   lat: number
   lon: number
+
   flag: string
   region: Region
+
   isHq?: boolean
   isAlliance?: boolean
   hubType?: string
-  services: string[]
-  detail: string
+  card: string[]
+  capabilities: {
+    title: string
+    detail: string
+  }[]
 }
 
 export const COUNTRIES: Country[] = [
@@ -119,159 +125,535 @@ export const COUNTRIES: Country[] = [
     lat: 13.0827,
     lon: 80.2707,
     isHq: true,
-    flag: '🇮🇳',
+    flag: 'IN',
     region: 'Asia-Pacific',
     hubType: 'Global Headquarters',
-    services: ['TDD', 'Factory Qualification'],
-    detail:
-      'Technical due diligence and blade factory qualification for utility-scale wind development, including manufacturing readiness and supply-chain capability.',
+    card: [
+      'OEM & Manufacturing',
+      'Independent Engineering',
+      'Quality & New Product Introduction',
+      'Major Blade Programmes',
+      'Owner / IPP Support',
+    ],
+    capabilities: [
+      {
+        title: 'OEM & Manufacturing',
+        detail:
+          'Blade engineering, process optimisation, quality and manufacturing support across major OEM programmes.',
+      },
+      {
+        title: 'Independent Engineering',
+        detail:
+          'Blade inspection, manufacturing audits, material assessment and technical reporting through DNV GL.',
+      },
+      {
+        title: 'Quality & New Product Introduction',
+        detail:
+          'APQP 4 Wind, RCA, FMEA, process qualification and blade launch support.',
+      },
+      {
+        title: 'Major Programmes',
+        detail:
+          'Suzlon SB54, Vestas V110/V126/V136/V150 and Nordex N155/AW125.',
+      },
+      {
+        title: 'Owner / IPP Projects',
+        detail:
+          'TotalEnergies — Nordex blade inspection for the Horse project, alongside technical assessment and project support.',
+      },
+    ],
   },
+
   {
     name: 'China',
     lat: 35.8617,
     lon: 104.1954,
-    flag: '🇨🇳',
+    flag: 'CN',
     region: 'Asia-Pacific',
-    services: ['Factory Qualification', 'Manufacturing Surveillance', 'NPI'],
-    detail:
-      'Factory qualification, on-site manufacturing surveillance and new product introduction at tier-1 OEM export facilities.',
+    card: [
+      'Blade Manufacturing Support',
+      'Technology Transfer',
+      'Manufacturing Surveillance',
+      'Factory Qualification',
+      'Project Technical Support',
+    ],
+    capabilities: [
+      {
+        title: 'Vestas V136',
+        detail:
+          'Blade assembly and first-blade production support during the China launch programme.',
+      },
+      {
+        title: 'SANY & Envision — Mirny 1 GW',
+        detail:
+          'Blade-factory TDD, qualification, risk assessment and mitigation supporting manufacturing readiness for the Kazakhstan project.',
+      },
+      {
+        title: 'Goldwind–Sinoma',
+        detail:
+          'Manufacturing surveillance and final blade inspection for the SASOL / South Africa project.',
+      },
+      {
+        title: 'Aeolon — Siemens Gamesa',
+        detail:
+          'Process and product audit and manufacturing assessment at the blade factory, supporting the Rembecourt, France project.',
+      },
+      {
+        title: 'IPP / Wind-Farm Technical Support',
+        detail:
+          'Final blade inspection, manufacturing surveillance, quality-system audits, process audits and wind-farm visits across multiple international projects.',
+      },
+    ],
   },
+
   {
     name: 'Singapore',
     lat: 1.3521,
     lon: 103.8198,
-    flag: '🇸🇬',
+    flag: 'SG',
     region: 'Asia-Pacific',
-    services: ['Vendor Development', 'Materials'],
-    detail:
-      'Global headquarters — vendor development, materials engineering and the technical strategy directing blade consultancy across APAC and worldwide.',
+    card: [
+      'Vendor Development',
+      'Material Technology',
+      'Process Engineering',
+      'Supplier Support',
+    ],
+    capabilities: [
+      {
+        title: 'Vendor Development',
+        detail:
+          'Technical meetings with material manufacturers and suppliers supporting blade manufacturing.',
+      },
+      {
+        title: 'Material Technology',
+        detail:
+          'Explored and evaluated new materials and process materials for blade manufacturing applications.',
+      },
+      {
+        title: 'Process Engineering',
+        detail:
+          'Supported supplier and material development activities from a blade process-engineering perspective.',
+      },
+    ],
   },
+
   {
     name: 'Australia',
     lat: -25.2744,
     lon: 133.7751,
-    flag: '🇦🇺',
+    flag: 'AU',
     region: 'Asia-Pacific',
-    services: ['Blade Project', 'Quality Assurance'],
-    detail:
-      'Blade project delivery and quality assurance for wind farms across Australian sites, from receipt inspection to pre-commissioning.',
+    card: [
+      'Third-Party Inspection',
+      'Blade Quality Verification',
+      'Independent Engineering',
+      'Audit & Technical Reporting',
+    ],
+    capabilities: [
+      {
+        title: 'DNV GL — Third-Party Inspection',
+        detail:
+          'Supported blade inspection and quality verification for RE Power-related projects involving Australia.',
+      },
+      {
+        title: 'Independent Engineering',
+        detail:
+          'Inspection, audit and technical reporting to support client and project requirements.',
+      },
+    ],
   },
   {
     name: 'Denmark',
     lat: 56.2639,
     lon: 9.5018,
-    flag: '🇩🇰',
+    flag: 'DK',
     region: 'Europe',
-    services: ['Global Engineering', 'Training'],
-    detail:
-      'Global blade engineering and technical training through our dedicated alliance with European Designers, covering aerodynamic design and structural verification.',
+    card: [
+      'Global Blade Engineering',
+      'Technology & Process Development',
+      'OEM Technical Collaboration',
+      'Engineering Training',
+    ],
+    capabilities: [
+      {
+        title: 'Vestas Global Blade Engineering',
+        detail:
+          'Started in 2016 with technical training covering webs, blade assembly and multiple blade models.',
+      },
+      {
+        title: 'Prototype & New Product Introduction',
+        detail:
+          'Supported V136, V116 and V120 at prototype and early-production stages through process-engineering activities.',
+      },
+      {
+        title: 'Blade Launch & Technology Transfer',
+        detail:
+          'Worked within the global blade launch team, transferring manufacturing technology and process knowledge to production teams.',
+      },
+      {
+        title: 'Process & Quality Engineering',
+        detail:
+          'Supported PFMEA updates, ECO / ECN implementation, process changes and manufacturing readiness.',
+      },
+      {
+        title: 'Global Engineering Collaboration',
+        detail:
+          'Worked with Denmark-based engineering and validation teams supporting blade production and launch across international factories.',
+      },
+    ],
   },
-  {
-    name: 'UK',
-    lat: 55.3781,
-    lon: -3.436,
-    flag: '🇬🇧',
-    region: 'Europe',
-    services: ['Blade Repair', 'Technical Training'],
-    detail:
-      'Composite blade repair engineering and technical training for offshore and onshore operators across the UK fleet.',
-  },
+
   {
     name: 'Germany',
     lat: 51.1657,
     lon: 10.4515,
-    flag: '🇩🇪',
+    flag: 'DE',
     region: 'Europe',
-    services: ['OEM', 'Inspection', 'Engineering'],
-    detail:
-      'OEM-side engineering, blade inspection and process support at primary European blade production sites.',
+    card: [
+      'Blade Inspection',
+      'Third-Party Engineering',
+      'Quality Assessment',
+      'Technical Reporting',
+    ],
+    capabilities: [
+      {
+        title: 'Vestas V136',
+        detail:
+          'Supported blade production and process engineering activities during the V136 programme.',
+      },
+      {
+        title: 'Process Engineering Support',
+        detail:
+          'Worked with Vestas teams in Germany on process implementation and technical support for multiple blade models.',
+      },
+      {
+        title: 'Manufacturing Improvement',
+        detail:
+          'Supported a shell de-bagging process cost-reduction project, translating process observations into practical improvements.',
+      },
+      {
+        title: 'Global NPI / Change Implementation',
+        detail:
+          'Supported ECN / ECO changes, process updates and manufacturing readiness in collaboration with global engineering teams.',
+      },
+      {
+        title: 'Technology & Knowledge Transfer',
+        detail:
+          'Connected prototype and launch engineering with production-floor implementation across the Vestas global manufacturing network.',
+      },
+    ],
+  },
+
+  {
+    name: 'United Kingdom',
+    lat: 55.3781,
+    lon: -3.436,
+    flag: 'GB',
+    region: 'Europe',
+    card: [
+      'Blade Engineering',
+      'Manufacturing Process',
+      'Quality Engineering',
+      'Technology & Training',
+    ],
+    capabilities: [
+      {
+        title: 'Isle of Wight — Blade Repair',
+        detail:
+          'Technical training and development of blade repair instructions.',
+      },
+      {
+        title: 'Technical Documentation',
+        detail:
+          'Worked on blade-related technical documentation and process information.',
+      },
+      {
+        title: 'Blade Testing',
+        detail:
+          'Exposure to blade testing activities and technical evaluation.',
+      },
+      {
+        title: 'Prototype Stage',
+        detail:
+          'Visited prototype-stage blade processes to understand manufacturing and development activities.',
+      },
+      {
+        title: 'Engineering Knowledge Transfer',
+        detail:
+          'Combined repair, testing, documentation and prototype-process exposure within the wider blade engineering programme.',
+      },
+    ],
   },
 
   {
     name: 'Spain',
     lat: 40.4637,
     lon: -3.7492,
-    flag: '🇪🇸',
+    flag: 'ES',
     region: 'Europe',
-    services: ['Engineering', 'Process & Quality'],
-    detail:
-      'Blade engineering support alongside manufacturing process and quality improvement at Spanish production facilities.',
+    card: [
+      'Vestas V150',
+      'Process Engineering',
+      'Manufacturing Readiness',
+      'Technology Transfer',
+    ],
+    capabilities: [
+      {
+        title: 'Vestas V150',
+        detail:
+          'Developed technical manufacturing documentation covering the blade process from webs through final post-moulding stages.',
+      },
+      {
+        title: 'Technology Transfer',
+        detail:
+          'During the Türkiye V150 launch, assigned a team member to Spain for hands-on process learning and knowledge transfer.',
+      },
+      {
+        title: 'Manufacturing Readiness',
+        detail:
+          'Translated the learning into technical documentation and process support for V150 production.',
+      },
+    ],
   },
+
   {
     name: 'France',
     lat: 46.2276,
     lon: 2.2137,
-    flag: '🇫🇷',
+    flag: 'FR',
     region: 'Europe',
-    services: ['Process & Product Audit'],
-    detail:
-      'Independent process and product audits of blade manufacturing lines and finished product against technical specification.',
+    card: [
+      'Siemens Gamesa',
+      'Process & Product Audit',
+      'Manufacturing Assessment',
+      'Project Delivery Readiness',
+    ],
+    capabilities: [
+      {
+        title: 'Rembecourt Wind Project',
+        detail:
+          'Process and product audit at Aeolon’s blade manufacturing facility in China for the France wind-farm project.',
+      },
+      {
+        title: 'Siemens Gamesa — Rembecourt',
+        detail:
+          'Manufacturing assurance through assessment of blade manufacturing processes and product quality to support project requirements and delivery readiness.',
+      },
+      {
+        title: 'TotalEnergies IPP Support',
+        detail:
+          'Provided independent blade engineering and technical support for TotalEnergies projects during 2025–2026.',
+      },
+      {
+        title: 'Blade Expert & SME',
+        detail:
+          'Supported blade quality, inspection, repair assessment and technical decision-making from the IPP / end-customer perspective.',
+      },
+    ],
   },
+
   {
     name: 'Türkiye',
     lat: 38.9637,
     lon: 35.2433,
-    flag: '🇹🇷',
+    flag: 'TR',
     region: 'Europe',
-    services: ['Quality', 'Training', 'Launch'],
-    detail:
-      'Quality engineering, team training and new-product launch support at major blade manufacturing and sub-component facilities.',
+    card: [
+      'Vestas V150',
+      'Process Knowledge Transfer',
+      'Manufacturing Quality',
+      'Engineering Training',
+    ],
+    capabilities: [
+      {
+        title: 'Vestas V150 — New Model Launch',
+        detail:
+          'Led technical support and Quality Assurance team training for the V150 blade programme.',
+      },
+      {
+        title: 'Quality Team Establishment',
+        detail:
+          'Built and developed the quality team to support production of the new blade model.',
+      },
+      {
+        title: 'Technical Training',
+        detail:
+          'Delivered training covering blade quality, repair practices and material quality assessment.',
+      },
+      {
+        title: 'APQP 4 Wind',
+        detail:
+          'Established the quality system and supported production implementation against customer requirements.',
+      },
+      {
+        title: 'RCCA & Process Engineering',
+        detail:
+          'Led root-cause and corrective-action activities together with the process-engineering team during the V150 launch.',
+      },
+    ],
   },
+
   {
     name: 'Canada',
     lat: 56.1304,
     lon: -106.3468,
     isHq: false,
-    flag: '🇨🇦',
+    flag: 'CA',
     region: 'Americas',
     hubType: 'Regional Operations',
-    services: ['TDD', 'Factory Qualification'],
-    detail:
-      'Technical due diligence and blade factory qualification for utility-scale wind development, including manufacturing readiness and supply-chain capability.',
+    card: [
+      'Nordex N155 / 77.5m Blade Programme',
+      'Retrofit Quality',
+      'Defect Prevention',
+      'Customer Requirements',
+    ],
+    capabilities: [
+      {
+        title: 'Nordex N155 — Bekavar Retrofit Project',
+        detail:
+          'Led quality and engineering support for the Bekavar blade retrofit project involving the 77.5 m Nordex N155 blade.',
+      },
+      {
+        title: 'Quality Leadership',
+        detail:
+          'Led the project to prevent recurrence of manufacturing defects and ensure the complete blade programme met end-customer quality requirements.',
+      },
+    ],
   },
+
   {
     name: 'USA',
     lat: 37.0902,
     lon: -95.7129,
-    flag: '🇺🇸',
+    flag: 'US',
     region: 'Americas',
-    services: ['Engineering', 'Manufacturing', 'Inspection'],
-    detail:
-      'Blade engineering, manufacturing support and structural inspection across US wind fleets and production lines.',
+    card: [
+      'Technology Transfer',
+      'Blade Launch & Execution',
+      'Process Optimisation',
+      'Manufacturing Readiness',
+    ],
+    capabilities: [
+      {
+        title: 'Vestas V110 / V116 / V120',
+        detail:
+          'Supported global technology transfer and process engineering activities for blade manufacturing.',
+      },
+      {
+        title: 'V120 Blade Launch',
+        detail:
+          'Supported blade launch and execution, working with the USA manufacturing team.',
+      },
+      {
+        title: 'ECN / ECO Implementation',
+        detail:
+          'Supported engineering-change implementation and manufacturing-process updates.',
+      },
+      {
+        title: 'PFMEA & Process Engineering',
+        detail:
+          'Supported PFMEA updates, process optimisation and manufacturing readiness.',
+      },
+      {
+        title: 'Global Technology Transfer',
+        detail:
+          'Connected USA factory execution with Vestas’ global blade-launch and engineering teams.',
+      },
+    ],
   },
+
   {
     name: 'Mexico',
     lat: 23.6345,
     lon: -102.5528,
-    flag: '🇲🇽',
+    flag: 'MX',
     region: 'Americas',
-    services: ['Quality', 'Training', 'Launch'],
-    detail:
-      'Quality engineering, workforce training and product launch support for North American export blade manufacturing lines.',
+    card: [
+      'Vestas V150',
+      'Technology Transfer',
+      'Quality & NDT',
+      'Manufacturing Process',
+    ],
+    capabilities: [
+      {
+        title: 'Vestas V150 — Technology Transfer',
+        detail:
+          'Knowledge transfer from incoming inspection through post-moulding, including shell manufacturing good practices and defect reduction.',
+      },
+      {
+        title: 'Quality & Assembly',
+        detail:
+          'Hands-on learning covering final assembly and NDT processes for the V150 blade.',
+      },
+      {
+        title: 'India Quality Setup',
+        detail:
+          'Transferred the manufacturing and quality practices to support establishment of the V150 Quality Department in India.',
+      },
+    ],
   },
 
   {
     name: 'Oman',
     lat: 21.4735,
     lon: 55.9754,
-    flag: '🇴🇲',
+    flag: 'OM',
     region: 'Middle East & Africa',
-    services: ['WTG Project Support'],
-    detail:
-      'Wind turbine generator project support in extreme desert conditions, covering blade inspection, erosion analysis and repair engineering.',
+    card: [
+      'Blade Inspection',
+      'Repair Analysis',
+      'Technical Assessment',
+      'Pre-Commissioning Support',
+    ],
+    capabilities: [
+      {
+        title: 'Riyah Wind Project',
+        detail:
+          'Wind-farm blade inspection and technical assessment before commissioning.',
+      },
+      {
+        title: 'Repair Engineering',
+        detail:
+          'Structural repair analysis, evaluation of blade defects and technical approval of repair solutions.',
+      },
+      {
+        title: 'Pre-Commissioning Assurance',
+        detail:
+          'Verified blade quality, repair condition and readiness before commissioning to support reliable project handover.',
+      },
+    ],
   },
+
   {
     name: 'South Africa',
     lat: -30.5595,
     lon: 22.9375,
-    flag: '🇿🇦',
+    flag: 'ZA',
     region: 'Middle East & Africa',
-    services: ['Project Support'],
-    detail:
-      'Blade project support for IPPs and utility-scale developments, including post-transportation inspection and pre-commissioning verification.',
+    card: [
+      'SASOL Project',
+      'Manufacturing Surveillance',
+      'Final Blade Inspection',
+      'Quality Assessment',
+    ],
+    capabilities: [
+      {
+        title: 'Wind Farm Blade Inspection',
+        detail:
+          'Inspected blades at site to verify condition and quality before project commissioning.',
+      },
+      {
+        title: 'Structural Repair Assessment',
+        detail:
+          'Evaluated blade defects, performed repair analysis and technical assessment, and supported repair approval.',
+      },
+      {
+        title: 'Pre-Commissioning Assurance',
+        detail:
+          'Verified blade quality and repair status before the blades entered operation, supporting IPP project readiness.',
+      },
+    ],
   },
-
-
 ]
 
 /**
@@ -289,7 +671,7 @@ export const COUNTRY_LIST =
 export const VALUES = [
   { title: 'Integrity', body: 'Honest, transparent technical findings.' },
   { title: 'Independence', body: "Advice focused on the client's interests." },
-  { title: 'Expertise', body: 'Specialist, hands-on blade engineering knowledge.' },
+  { title: 'Expertise', body: 'Expert, hands-on blade engineering knowledge.' },
   {
     title: 'Innovation',
     body: 'Advanced inspection, robotics and AI to improve blade assessment.',
@@ -303,7 +685,7 @@ export const PROCESS = [
     title: 'Review',
     body: 'We review drawings, specifications, reports, inspection data, photographs and available technical records.',
   },
-  { num: '03', title: 'Assess', body: 'We apply specialist blade engineering expertise to assess the condition, defect, process or technical issue.' },
+  { num: '03', title: 'Assess', body: 'We apply expert blade engineering expertise to assess the condition, defect, process or technical issue.' },
   {
     num: '04',
     title: 'Investigate',
@@ -315,7 +697,7 @@ export const PROCESS = [
 
 export const WAYS_TO_WORK = [
   { title: 'Technical Assignment', body: 'Specific blade engineering question, assessment or technical issue.' },
-  { title: 'Project Support', body: 'Specialist blade engineering support throughout a defined project.' },
+  { title: 'Project Support', body: 'Expert blade engineering support throughout a defined project.' },
   {
     title: 'Long-Term Technical Partnership',
     body: 'Ongoing independent blade engineering support for Owners, IPPs, OEMs and engineering organisations.',
@@ -339,8 +721,8 @@ export const SERVICES: Service[] = [
     id: 'design-engineering',
     n: 'Service 1',
     title: 'Design & Engineering',
-    sub: 'Specialist blade engineering, strengthened through our collaboration with European Designers.',
-    text: 'Windleaf provides specialist blade engineering expertise, complemented by design and advanced engineering capabilities through our collaboration with European Designers.',
+    sub: 'Expert blade engineering, strengthened through our collaboration with European Designers.',
+    text: 'Windleaf provides Expert blade engineering expertise, complemented by design and advanced engineering capabilities through our collaboration with European Designers.',
     list: [
       'New blade design and development',
       'Blade design review and optimisation',
@@ -432,7 +814,7 @@ export const SERVICES: Service[] = [
     id: 'wind-farm-support',
     n: 'Service 6',
     title: 'Wind Farm Technical Support',
-    sub: 'Specialist blade support for operating wind farms.',
+    sub: 'Expert blade support for operating wind farms.',
     text: 'From reviewing inspection findings to coordinating with OEMs and contractors, we help wind farm teams manage blade issues with confidence.',
     list: [
       'Blade technical support for wind farms',
@@ -459,7 +841,7 @@ export const SERVICES: Service[] = [
       'Blade lifecycle advisory',
       'OEM, owner and IPP technical interface support',
       'Technical documentation and reporting',
-      'Specialist support for critical blade decisions',
+      'Expert support for critical blade decisions',
     ],
     experience:
       'Independent engineering experience with DNV GL, and both OEM and IPP perspectives.',
@@ -486,7 +868,7 @@ export const SERVICES: Service[] = [
 export const DESIGN_BOXES = [
   {
     title: 'What we support',
-    body: 'Blade design review, engineering assessment and technical input, backed by our specialist collaboration network.',
+    body: 'Blade design review, engineering assessment and technical input, backed by our Expert collaboration network.',
   },
   {
     title: 'Where we add value',
@@ -733,7 +1115,7 @@ export const SEO = {
   about: {
     title: 'About Windleaf | Independent Wind Blade Engineering Expertise',
     description:
-      'Founded by K. Muruga Ganesh, Windleaf brings 17 years of wind-energy experience across OEM, IPP and independent engineering, including DNV GL.',
+      'Founded by K. Muruga Ganesh Kasi Rajan, Windleaf brings 17 years of wind-energy experience across OEM, IPP and independent engineering, including DNV GL.',
   },
   services: {
     title: 'Wind Turbine Blade Engineering Services | Windleaf',

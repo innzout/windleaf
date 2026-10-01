@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const CONTACT_DETAILS = [
   { label: 'Email', value: 'mg@windleafenergy.com' },
   { label: 'Phone / WhatsApp', value: '+91 7904724895' },
-  { label: 'Address', value: 'XYZ, India-61XX05' },
+  { label: 'Address', value: 'No.308, 13th Cross Street, Casagrand Arena, Vallakottai, Oragadam, Chennai - 602105' },
 ]
 
 export default function ContactPage() {
@@ -43,7 +43,26 @@ export default function ContactPage() {
                     <span className="block text-xs font-semibold uppercase tracking-wide text-green">
                       {detail.label}
                     </span>
-                    <span className="mt-1 block text-charcoal/70">{detail.value}</span>
+
+                    {detail.label === 'Email' ? (
+                      <a
+                        href={`mailto:${detail.value}`}
+                        className="mt-1 block text-charcoal/70 transition-colors hover:text-green"
+                      >
+                        {detail.value}
+                      </a>
+                    ) : detail.label === 'Phone / WhatsApp' ? (
+                      <a
+                        href={`tel:${detail.value.replace(/\s+/g, '')}`}
+                        className="mt-1 block text-charcoal/70 transition-colors hover:text-green"
+                      >
+                        {detail.value}
+                      </a>
+                    ) : (
+                      <span className="mt-1 block leading-relaxed text-charcoal/70">
+                        {detail.value}
+                      </span>
+                    )}
                   </li>
                 ))}
               </ul>

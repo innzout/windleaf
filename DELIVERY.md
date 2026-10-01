@@ -11,7 +11,7 @@ waiting time built in and should be started early.
 
 | Item | Where | Status |
 | ---- | ----- | ------ |
-| Real contact email, phone, address | `src/app/contact/page.tsx` → `CONTACT_DETAILS` | placeholder (`info@windleaf.com`, `+91 9XXX927372`, `XYZ, India-61XX05`) |
+| Real contact email, phone, address | `src/app/contact/page.tsx` → `CONTACT_DETAILS` | placeholder (`info@windleaf.com`, `+91 9XXX927372`, `No.308, 13th Cross Street, Casagrand Arena, Vallakottai, Oragadam, Chennai - 602105`) |
 | Enquiry form has no backend | `src/components/ContactForm.tsx` | validates, then discards — see §2 |
 | Production domain | `NEXT_PUBLIC_SITE_URL` | unset |
 | Founder photo | `/about` | monogram placeholder |
@@ -175,7 +175,7 @@ ships as HTML rather than being assembled client-side.
   consultancy where LinkedIn is the main channel, this is the highest-value
   item on this list.
 - **Fill the placeholder contact details.** Google reads NAP (name, address,
-  phone) for local and professional-services results; `XYZ, India-61XX05`
+  phone) for local and professional-services results; `No.308, 13th Cross Street, Casagrand Arena, Vallakottai, Oragadam, Chennai - 602105`
   actively harms that.
 - **Google Business Profile**, if there is a physical office.
 - **`LocalBusiness` address fields** in the JSON-LD once the real address

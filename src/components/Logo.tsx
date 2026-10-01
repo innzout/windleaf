@@ -9,7 +9,7 @@ import Image from 'next/image'
 export function Logo({
   onDark = false,
   className = '',
-  height = 46,
+  height = 55,
 }: {
   onDark?: boolean
   className?: string

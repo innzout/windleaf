@@ -25,7 +25,7 @@ export function GlobalReach() {
         {[
           { value: String(COUNTRY_COUNT), label: 'Countries of project experience' },
           { value: String(REGION_COUNT), label: 'Regions covered' },
-          { value: '2', label: 'Strategic hubs — India HQ · Global partnerships' },
+          { value: '1', label: 'Strategic hubs — India HQ · Global partnerships' },
         ].map((stat) => (
           <div key={stat.label} className="bg-white px-6 py-7 text-center">
             <div className="font-display text-4xl font-bold text-green">
@@ -56,7 +56,9 @@ export function GlobalReach() {
                   key={country.name}
                   as="article"
                   spotlightColor={
-                    country.isHq ? 'rgba(255, 193, 7, 0.16)' : 'rgba(0, 194, 168, 0.15)'
+                    country.isHq
+                      ? 'rgba(255, 193, 7, 0.16)'
+                      : 'rgba(0, 194, 168, 0.15)'
                   }
                   className={`reveal-up flex h-full flex-col rounded-2xl border p-6 ${country.isHq
                       ? 'border-sun/45 bg-sun/[0.06]'
@@ -66,18 +68,34 @@ export function GlobalReach() {
                     }`}
                   style={stagger(i % 3)}
                 >
+                  {/* Header */}
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-2.5">
-                      <Flag emoji={country.flag} name={country.name} className="h-5 w-[30px]" />
-                      <h4 className="font-display text-xl font-semibold text-navy">
-                        {country.name}
-                      </h4>
+                      <Flag
+                        emoji={country.flag}
+                        name={country.name}
+                        className="h-5 w-[30px]"
+                      />
+
+                      <div>
+                        <h4 className="font-display text-xl font-semibold text-navy">
+                          {country.name}
+                        </h4>
+
+                        {country.hubType && (
+                          <p className="mt-0.5 text-[11px] font-medium uppercase tracking-wide text-charcoal/50">
+                            {country.hubType}
+                          </p>
+                        )}
+                      </div>
                     </div>
+
                     {country.isHq && (
                       <span className="shrink-0 rounded-full bg-sun px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-navy">
                         Global HQ
                       </span>
                     )}
+
                     {country.isAlliance && (
                       <span className="shrink-0 rounded-full bg-teal px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
                         Alliance
@@ -85,20 +103,23 @@ export function GlobalReach() {
                     )}
                   </div>
 
-                  <div className="mt-4 flex flex-wrap gap-1.5">
-                    {country.services.map((service) => (
-                      <span
-                        key={service}
-                        className="rounded-md border border-teal/25 bg-teal/8 px-2 py-0.5 text-[11px] font-medium text-[#0d6d70]"
+                  {/* Capabilities */}
+                  <div className="mt-6 flex flex-1 flex-col divide-y divide-hairline">
+                    {country.capabilities.map((capability) => (
+                      <div
+                        key={capability.title}
+                        className="py-4 first:pt-0 last:pb-0"
                       >
-                        {service}
-                      </span>
+                        <h5 className="text-sm font-semibold text-navy">
+                          {capability.title}
+                        </h5>
+
+                        <p className="mt-1.5 text-sm leading-relaxed text-charcoal/70">
+                          {capability.detail}
+                        </p>
+                      </div>
                     ))}
                   </div>
-
-                  <p className="mt-4 flex-1 text-sm leading-relaxed text-charcoal/70">
-                    {country.detail}
-                  </p>
                 </SpotlightCard>
               ))}
             </div>

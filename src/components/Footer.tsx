@@ -8,7 +8,7 @@ export function Footer() {
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-6 py-16 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:px-10">
         <div>
           <div>
-            <Logo onDark height={42} />
+            <Logo onDark height={100} />
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
             Independent wind turbine blade engineering and consulting — from manufacturing to
@@ -55,16 +55,53 @@ export function Footer() {
           <h4 className="text-xs font-semibold uppercase tracking-[0.16em] text-leaf">
             Get in Touch
           </h4>
-          <ul className="mt-4 space-y-2.5 text-sm text-white/70">
-            <li>Email: mg@windleafenergy.com</li>
-            <li>Phone / WhatsApp: +91 7904724895</li>
-            <li>Address: XYZ, India-61XX05</li>
+
+          <ul className="mt-4 space-y-2 text-sm text-white/70">
+            <li>
+              <span className="block text-[10px] font-semibold uppercase tracking-wider text-white/40">
+                Email
+              </span>
+              <a
+                href="mailto:mg@windleafenergy.com"
+                className="mt-0.5 inline-block transition-colors hover:text-leaf"
+              >
+                mg@windleafenergy.com
+              </a>
+            </li>
+
+            <li>
+              <span className="block text-[10px] font-semibold uppercase tracking-wider text-white/40">
+                Phone / WhatsApp
+              </span>
+              <a
+                href="tel:+917904724895"
+                className="mt-0.5 inline-block transition-colors hover:text-leaf"
+              >
+                +91 7904724895
+              </a>
+            </li>
+
+            <li>
+              <span className="block text-[10px] font-semibold uppercase tracking-wider text-white/40">
+                Address
+              </span>
+              <span className="mt-0.5 block leading-relaxed">
+                No. 308, 13th Cross Street,<br />
+                Casagrand Arena, Vallakottai, 
+                <br />
+                Oragadam, Chennai – 602105
+              </span>
+            </li>
           </ul>
+
           <Link
             href="/contact"
             className="group mt-5 inline-flex items-center gap-2 rounded-md bg-green px-5 py-2.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-forest"
           >
-            Discuss Your Project
+            Get in Touch
+            <span className="transition-transform group-hover:translate-x-0.5">
+              →
+            </span>
           </Link>
         </div>
       </div>

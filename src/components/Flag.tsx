@@ -29,11 +29,11 @@ export function Flag({
   name: string
   className?: string
 }) {
-  const iso = isoFromEmoji(emoji)
+  
 
   return (
     <Image
-      src={`/flags/${iso}.svg`}
+      src={`/flags/${emoji}.svg`}
       // The country name is always rendered next to this, so the flag is
       // decorative — announcing "Singapore Singapore" helps nobody.
       alt=""

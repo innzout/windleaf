@@ -143,7 +143,7 @@ export default function HomePage() {
       <Section tone="white">
         <div className="reveal-up">
           <SectionHeading
-            eyebrow="Specialist Capabilities"
+            eyebrow="Core Engineering Capabilities "
             title="What We Do"
             sub="Three areas of wind turbine blade expertise, delivered from an independent perspective."
           />
