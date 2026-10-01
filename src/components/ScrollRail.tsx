@@ -115,7 +115,7 @@ export function ScrollRail({
           // `scroll-smooth` has to come off while dragging: it would ease
           // towards each scrollLeft we set and lag behind the cursor.
           dragging ? 'cursor-grabbing select-none' : 'cursor-grab scroll-smooth'
-        } ${itemsClassName}`}
+          } ${itemsClassName}`}
       >
         {children}
       </div>
@@ -150,15 +150,20 @@ export function ScrollRail({
   const scrollable = canLeft || canRight
 
   return (
-    <div className={`grid min-w-0 grid-cols-[36px_minmax(0,1fr)_36px] items-center ${className}`}>
-      {/* The two 36px columns stay reserved whether or not there is anything to
-          scroll, so the rail does not jump sideways the moment its content
-          starts overflowing — which happens on resize. Only the buttons
-          themselves come and go; permanently greyed-out arrows read as broken
-          rather than as "nothing to scroll". */}
-      <div className="flex justify-center">{scrollable && left}</div>
-      <div className="relative min-w-0">{rail}</div>
-      <div className="flex justify-center">{scrollable && right}</div>
+    <div
+      className={`grid min-w-0 grid-cols-[36px_minmax(0,1fr)_36px] items-center ${className}`}
+    >
+      <div className="flex justify-center">
+        {scrollable && left}
+      </div>
+
+      <div className="relative min-w-0 px-3">
+        {rail}
+      </div>
+
+      <div className="flex justify-center">
+        {scrollable && right}
+      </div>
     </div>
   )
 }

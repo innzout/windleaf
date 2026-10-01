@@ -33,7 +33,7 @@ export function Flag({
 
   return (
     <Image
-      src={`/flags/${emoji}.svg`}
+      src={`/flags/${emoji.toLowerCase()}.svg`}
       // The country name is always rendered next to this, so the flag is
       // decorative — announcing "Singapore Singapore" helps nobody.
       alt=""
