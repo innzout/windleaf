@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { SEO, EXPERIENCE, VALUES, COUNTRY_COUNT } from '@/content/site'
+import { SEO, EXPERIENCE, VALUES, COUNTRY_COUNT, FOUNDER, FOUNDER_TITLE } from '@/content/site'
 import { Button, Section, SectionHeading, stagger } from '@/components/ui'
 import { PageHero, ClosingCTA } from '@/components/sections'
 import { SpotlightCard } from '@/components/SpotlightCard'
 import { GlobalReach } from '@/components/GlobalReach'
 import { GlobeMount } from '@/components/globe/GlobeMount'
+import { LinkedInLink } from '@/components/LinkedInLink'
 
 export const metadata: Metadata = {
   title: SEO.about.title,
@@ -33,8 +34,8 @@ export default function AboutPage() {
             >
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-mist">
                 <Image
-                  src="/founder-k-muruga-ganesh.png"
-                  alt="K. Muruga Ganesh Kasi Rajan — Founder & CEO | Independent Wind Turbine Blade Engineering & Consulting "
+                  src={FOUNDER.photo}
+                  alt={`${FOUNDER.name} — ${FOUNDER_TITLE}`}
                   fill
                   sizes="(max-width: 1024px) 100vw, 40vw"
                   className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
@@ -43,28 +44,41 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/20 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 text-white">
                   <p className="font-display text-xl font-bold tracking-tight text-white drop-shadow-sm">
-                    K. Muruga Ganesh Kasi Rajan
+                    {FOUNDER.name}
                   </p>
                   <p className="mt-1 text-sm font-medium text-teal drop-shadow-sm">
-                    Founder &amp; CEO
+                    {FOUNDER.role}
                   </p>
                 </div>
               </div>
             </SpotlightCard>
           </div>
           <div className="reveal-right">
-            <h2 className="text-4xl font-semibold sm:text-5xl">K. Muruga Ganesh Kasi Rajan</h2>
-            <p className="mt-2 text-base font-semibold text-teal sm:text-lg">
-              Founder & CEO | Independent Wind Turbine Blade Engineering & Consulting 
-            </p>
+            <h2 className="text-4xl font-semibold sm:text-5xl">{FOUNDER.name}</h2>
+
+            {/* Two parts, not one pipe-joined run: the role carries the weight,
+                the field of practice sits under it. They wrap independently, so
+                a narrow screen breaks between them rather than mid-phrase. */}
+            <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
+              <span className="rounded-full bg-teal/12 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-teal">
+                {FOUNDER.role}
+              </span>
+              <span className="h-4 w-px bg-hairline" aria-hidden="true" />
+              <span className="text-base font-medium leading-snug text-charcoal/75">
+                {FOUNDER.specialism}
+              </span>
+            </div>
+
+            <LinkedInLink className="mt-5" label="Connect on LinkedIn" />
 
             <div className="mt-6 space-y-4 text-lg leading-relaxed text-charcoal/75">
               <p className="font-semibold text-navy">
-                17 years of global experience in wind turbine blade engineering, manufacturing, quality, and independent technical services.
+                {FOUNDER.years} years of global experience in wind turbine blade engineering,
+                manufacturing, quality, and independent technical services.
               </p>
 
               <p>
-                K. Muruga Ganesh Kasi Rajan has worked across OEM, IPP, and independent engineering environments, providing technical expertise throughout the blade lifecycle — from supplier qualification, manufacturing and quality assurance to inspection, defect assessment, repair, and structural evaluation.
+                {FOUNDER.name} has worked across OEM, IPP, and independent engineering environments, providing technical expertise throughout the blade lifecycle — from supplier qualification, manufacturing and quality assurance to inspection, defect assessment, repair, and structural evaluation.
               </p>
 
               <p>

@@ -14,7 +14,19 @@ const PALETTE = {
   atmosphere: '#00c2a8',
   // White so the headquarters reads as the brightest point on the globe.
   hq: '#ffffff',
-  alliance: '#00c2a8',
+  // Amber, not the brand teal.
+  //
+  // Teal failed on two counts at once: it is within a hue of the project green
+  // (#2dbe60), so alliance and project markers were indistinguishable at marker
+  // size, and it is the exact colour of the atmosphere shell, so alliance
+  // markers dissolved into their own glow near the limb. Amber is the only
+  // brand colour far enough round the wheel to separate from both against a
+  // blue-green planet.
+  //
+  // Note it is `sun`, which marks the HQ on the GlobalReach cards — no conflict
+  // on the globe, where the HQ is white, but keep that in mind if the card
+  // badges and the markers are ever unified.
+  alliance: '#ffc107',
   site: '#2dbe60',
   comet: '#cfeee6',
 } as const
@@ -100,8 +112,15 @@ type MarkerRecord = {
  */
 const ROTOR_SIZE = 9
 
-/** Amber, freed up now that the HQ beacon itself is white. */
-const HOVER_RING = '#ffc107'
+/**
+ * White, because amber now marks the alliance countries.
+ *
+ * Leaving hover on amber would have made every alliance marker look permanently
+ * hovered. White does double duty with the white HQ beacon, but the two are
+ * shape-distinct — a thin outline ring on the surface versus a filled rotor —
+ * and hover is transient while the HQ is always there.
+ */
+const HOVER_RING = '#ffffff'
 /** Brand leaf-green reads as "this one is pinned". */
 const SELECT_RING = '#7dcb45'
 

@@ -201,7 +201,30 @@ export default function HomePage() {
                 {String(i + 1).padStart(2, '0')}
               </span>
               <h3 className="mt-3 text-xl font-semibold text-navy">{reason.title}</h3>
-              <p className="mt-2 text-base leading-relaxed text-charcoal/70">{reason.body}</p>
+
+              {reason.alliances ? (
+                // Two partners with two separate remits, so they get two rows
+                // rather than one paragraph — run together, the second
+                // company's name read as part of the first one's sentence.
+                <div className="mt-3 divide-y divide-hairline border-t border-hairline">
+                  {reason.alliances.map((ally) => (
+                    <div key={ally.name} className="py-3 first:pt-3 last:pb-0">
+                      <p className="flex items-baseline gap-1.5 text-sm font-semibold text-navy">
+                        {ally.name}
+                        <span className="text-[10px] font-bold uppercase tracking-wide text-charcoal/45">
+                          {ally.iso}
+                        </span>
+                      </p>
+                      <p className="mt-0.5 text-sm font-semibold text-green">{ally.focus}</p>
+                      <p className="mt-1 text-sm leading-relaxed text-charcoal/65">
+                        {ally.detail.join(' • ')}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="mt-2 text-base leading-relaxed text-charcoal/70">{reason.body}</p>
+              )}
             </SpotlightCard>
           ))}
         </div>

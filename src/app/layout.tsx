@@ -6,7 +6,7 @@ import { Footer } from '@/components/Footer'
 import { ScrollProgress } from '@/components/ScrollProgress'
 import { RouteProgress } from '@/components/RouteProgress'
 import { CursorGlow } from '@/components/CursorGlow'
-import { SEO, COUNTRIES, COUNTRY_COUNT } from '@/content/site'
+import { SEO, COUNTRIES, COUNTRY_COUNT, CONTACT, FOUNDER } from '@/content/site'
 import { SITE_URL, IS_PRODUCTION_SITE } from '@/lib/site-url'
 
 const sora = Sora({
@@ -80,6 +80,27 @@ const ORGANIZATION_JSONLD = {
     'Blade repair and failure analysis',
   ],
   areaServed: COUNTRIES.map((country) => ({ '@type': 'Country', name: country.name })),
+  // Contact and address come from CONTACT in content/site.ts. Google treats a
+  // name/address/phone that disagrees with the rendered page as a weaker
+  // signal than no markup at all, so these must not be retyped here.
+  email: CONTACT.email,
+  telephone: CONTACT.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: CONTACT.address.lines.join(', '),
+    addressLocality: CONTACT.address.locality,
+    addressRegion: CONTACT.address.region,
+    postalCode: CONTACT.address.postalCode,
+    addressCountry: CONTACT.address.country,
+  },
+  founder: {
+    '@type': 'Person',
+    name: FOUNDER.name,
+    jobTitle: FOUNDER.role,
+    // `sameAs` is how a search engine ties this Person to a profile it already
+    // knows about — the main way an entity claim gets corroborated.
+    sameAs: [FOUNDER.linkedin],
+  },
 }
 
 const WEBSITE_JSONLD = {

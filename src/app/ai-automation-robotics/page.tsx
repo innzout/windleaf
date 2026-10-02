@@ -5,6 +5,7 @@ import { PageHero } from '@/components/sections'
 import { TechFlow } from '@/components/TechFlow'
 import { StatusTag } from '@/components/StatusTag'
 import { EventBanner } from '@/components/EventBanner'
+import { HAS_EVENTS } from '@/lib/events'
 import { SpotlightCard } from '@/components/SpotlightCard'
 
 export const metadata: Metadata = {
@@ -208,10 +209,14 @@ export default function TechnologyPage() {
         </div>
       </Section>
 
-      {/* Event banner */}
-      <Section tone="mist">
-        <EventBanner />
-      </Section>
+      {/* Events, from NEXT_PUBLIC_EVENTS. The Section is guarded rather than
+          left to render an empty mist-coloured band once the show is over —
+          EventBanner itself returns null, but the padding would remain. */}
+      {HAS_EVENTS && (
+        <Section tone="mist">
+          <EventBanner />
+        </Section>
+      )}
     </>
   )
 }

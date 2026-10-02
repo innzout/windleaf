@@ -17,12 +17,85 @@ export const NAV = [
  */
 export const HERO_VIDEO: string | null = '/hero.mp4'
 
-export const EVENT = {
-  heading: 'Meet Windleaf at Windergy India 2026',
-  text: 'Visit us to discuss blade engineering, inspection and our technology initiatives.',
-  details: 'October 7–9, 2026 · Chennai Trade centre, Nandambakkam · Hall 2, S3',
-  strip: 'Windergy India 2026 — October 7–9, 2026 · Chennai Trade centre, Nandambakkam · Hall 2, S3',
+/**
+ * The founder, written once.
+ *
+ * Name, role and the one-line credential appear on `/about`, in the footer, in
+ * the contact aside and in the Organization JSON-LD. They used to be typed out
+ * at each site, which is how `/about` ended up carrying a different form of the
+ * name from everywhere else.
+ */
+export const FOUNDER = {
+  name: 'Muruga Ganesh Kasi Rajan',
+  role: 'Founder & CEO',
+  // Held apart from `role` rather than joined with a pipe. At the weight the
+  // designation renders, "|" reads as a capital I — "Founder & CEO I
+  // Independent Wind Turbine Blade Engineering" — and the two halves are
+  // different things anyway: one is a job title, one is a field of practice.
+  specialism: 'Independent Wind Turbine Blade Engineering & Consulting',
+  photo: '/founder-k-muruga-ganesh.png',
+  years: 17,
+  linkedin: 'https://www.linkedin.com/in/muruga-ganesh-kasirajan-b4aa9715/',
 }
+
+/** Flattened form, for alt text and structured data — not for display. */
+export const FOUNDER_TITLE = `${FOUNDER.role} — ${FOUNDER.specialism}`
+
+/**
+ * Contact details, written once.
+ *
+ * `phoneHref` is kept beside `phone` rather than derived at each call site —
+ * every consumer was stripping whitespace with its own regex. The address is
+ * held as parts because JSON-LD needs `PostalAddress` fields, the footer needs
+ * line breaks, and the contact page needs one flat string.
+ */
+export const CONTACT = {
+  email: 'mg@windleafenergy.com',
+  phone: '+91 7904724895',
+  phoneHref: '+917904724895',
+  address: {
+    lines: ['No. 308, 13th Cross Street', 'Casagrand Arena, Vallakottai'],
+    locality: 'Oragadam, Chennai',
+    region: 'Tamil Nadu',
+    postalCode: '602105',
+    country: 'IN',
+  },
+}
+
+export const CONTACT_ADDRESS_TEXT = [
+  ...CONTACT.address.lines,
+  `${CONTACT.address.locality} – ${CONTACT.address.postalCode}`,
+].join(', ')
+
+/**
+ * Blade manufacturers behind the founder's manufacturing experience.
+ *
+ * **Not a client list** — `OEM_DISCLAIMER` must travel with this wherever the
+ * full roll is shown. One array rather than a sentence retyped per page: it was
+ * spelled out by hand in three places and two of them had already gone stale,
+ * missing SANY and WinWind.
+ */
+export const OEMS = [
+  'Suzlon',
+  'Vestas',
+  'SANY',
+  'WinWind',
+  'Nordex',
+  'Goldwind',
+  'GE',
+  'Siemens Gamesa',
+  'RE Technologies',
+  'Envision',
+]
+
+export const OEM_LIST_TEXT = OEMS.join(' · ')
+
+export const OEM_DISCLAIMER =
+  'These companies reflect our professional experience, not a client list.'
+
+// Events moved to `lib/events.ts`, configured by the NEXT_PUBLIC_EVENTS
+// environment variable. They have a shelf life and the rest of this file does
+// not, so taking a finished show down should not need a code change.
 
 // NOTE: STATS and SIX_REASONS are defined further down, after COUNTRIES, so
 // they can derive the country count instead of repeating a literal.
@@ -30,7 +103,7 @@ export const EVENT = {
 export const EXPERIENCE = [
   {
     title: 'OEM & Manufacturing Experience',
-    body: 'Suzlon · Vestas · SANY · WinWind · Nordex · Goldwind · GE · Siemens Gamesa · RE Technologies · Envision',
+    body: OEM_LIST_TEXT,
   },
   {
     title: 'Independent Engineering Experience',
@@ -68,13 +141,13 @@ export const TECH_FLOW = [
   {
     num: '02',
     title: 'Inspection & Data',
-    body: 'Visual • NDT • Robotics • Field Data',
+    body: 'Visual • NDT • Robotics ( Lukan Wind Robotics, DK ) • Field Data',
     kind: 'capture' as const,
   },
   {
     num: '03',
     title: 'Engineering Analysis',
-    body: 'Structural • Manufacturing • Quality • Defects',
+    body: 'Structutal ( Design Engineering by Apex Wind ApS Denmark FEA)',
     kind: 'capture' as const,
   },
   {
@@ -94,6 +167,36 @@ export const TECH_FLOW = [
     title: 'Engineering Solution',
     body: 'Repair • Corrective Action • Life Extension • Recommendation',
     kind: 'verify' as const,
+  },
+]
+
+/**
+ * European technology and engineering collaborations.
+ *
+ * Two separate companies with two separate remits. They used to be one reason
+ * card whose body ran "…validation and FEA.\nLUKAN WIND ROBOTICS — Denmark\n
+ * Robotic Blade Inspection & AI Analysis" — the newlines collapse in HTML, so
+ * it rendered as a single paragraph in which the second company's name read as
+ * part of the first one's sentence.
+ *
+ * Declared above COUNTRIES because the Denmark entry reads from it: these are
+ * current collaborations, distinct from the historic Vestas work that fills the
+ * rest of that card, and the partner names must not be typed out twice.
+ */
+export const ALLIANCES = [
+  {
+    name: 'APEX WIND ApS',
+    country: 'Denmark',
+    iso: 'DK',
+    focus: 'European Design Collaboration',
+    detail: ['Design support', 'Technical Review', 'Validation', 'FEA'],
+  },
+  {
+    name: 'LUKAN WIND ROBOTICS',
+    country: 'Denmark',
+    iso: 'DK',
+    focus: 'Robotic Inside-Blade Inspection',
+    detail: ['Robotic inspection', 'Advanced imaging', 'AI-assisted analysis'],
   },
 ]
 
@@ -268,13 +371,22 @@ export const COUNTRIES: Country[] = [
     lon: 9.5018,
     flag: 'DK',
     region: 'Europe',
+    isAlliance: true,
+    hubType: 'European Design & Robotics Collaboration',
     card: [
+      'European Design Collaboration',
       'Global Blade Engineering',
       'Technology & Process Development',
       'OEM Technical Collaboration',
       'Engineering Training',
     ],
     capabilities: [
+      // Current collaborations first — the Vestas entries below are career
+      // history, and leading a card with history buried the live partnerships.
+      ...ALLIANCES.map((ally) => ({
+        title: `${ally.focus} — ${ally.name}`,
+        detail: ally.detail.join(' • ') + '.',
+      })),
       {
         title: 'Vestas Global Blade Engineering',
         detail:
@@ -753,7 +865,7 @@ export const SERVICES: Service[] = [
       'Manufacturing surveillance',
     ],
     experience:
-      'Blade manufacturing experience with Vestas,  Nordex, Suzlon and WinWind; manufacturing audits with DNV GL; manufacturing surveillance and process audits with TotalEnergies.',
+      `Blade manufacturing experience with ${OEM_LIST_TEXT}; manufacturing audits with DNV GL; manufacturing surveillance and process audits with TotalEnergies.`,
     cta: 'Discuss Your Requirement',
   },
   {
@@ -1145,26 +1257,36 @@ export const STATS = [
   { value: '10', label: 'Globally Delivered: 3 IPP & 7 OEM' },
 ]
 
-export const SIX_REASONS = [
+type Reason = {
+  title: string
+  body: string
+  /** Rendered as a partner table instead of the plain body where present. */
+  alliances?: typeof ALLIANCES
+}
+
+export const SIX_REASONS: Reason[] = [
   {
     title: 'Decades of Blade Engineering Experience',
     body: 'Hands-on expertise across blade engineering, manufacturing, quality, inspection, defects and repair.',
   },
   {
-    title: '17 Years of Global Wind-Energy Experience',
-    body: `Wind project experience across ${COUNTRY_COUNT} countries.`,
+    title: 'Global Experience & Technical Collaboration',
+    body: 'Windleaf works with specialised European technology and engineering partners to strengthen design engineering and advanced blade inspection capabilities.',
   },
   {
     title: 'OEM & IPP Perspective',
-    body: 'Experience with blade manufacturers — Suzlon · Vestas · Nordex · Goldwind · GE · Siemens Gamesa · RE Technologies · Envision — and on the owner side with TotalEnergies. We understand both sides of a blade decision.',
+    body: `Experience with blade manufacturers — ${OEM_LIST_TEXT} — and on the owner side with TotalEnergies. We understand both sides of a blade decision.`,
   },
   {
     title: 'Independent Technical Judgement',
     body: "Independent engineering experience with DNV GL, and objective advice focused on your interests — not the manufacturer's.",
   },
   {
-    title: 'Global Experience & Technical Collaboration',
-    body: 'International project exposure, with design and advanced engineering capabilities through our collaboration with European Designers.',
+    title: 'European Design & Robotics Alliances',
+    // The body is the fallback for surfaces that render the reason as prose —
+    // /how-we-work shows titles only, so the title has to stand alone too.
+    body: 'Design engineering with APEX WIND ApS and robotic inside-blade inspection with LUKAN WIND ROBOTICS, both based in Denmark.',
+    alliances: ALLIANCES,
   },
   {
     title: 'Technology-Enabled Solutions',

@@ -6,7 +6,6 @@ import { Button, Section, SectionHeading, stagger } from '@/components/ui'
 import { PageHero, ClosingCTA } from '@/components/sections'
 import ServiceQuickLinks from '@/components/ServiceQuickLinks'
 import { ScrollRail } from '@/components/ScrollRail'
-
 export const metadata: Metadata = {
   title: SEO.services.title,
   description: SEO.services.description,

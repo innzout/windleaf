@@ -374,7 +374,7 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
               <span>India Global HQ</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-teal shadow-[0_0_8px_#00c2a8]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-sun shadow-[0_0_8px_#ffc107]" />
               <span>European Design Collaboration</span>
             </div>
             <div className="flex items-center gap-1.5">
@@ -383,7 +383,7 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
             </div>
             <span className="h-3 w-px bg-white/15" />
             <div className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full border-2 border-sun" />
+              <span className="h-2.5 w-2.5 rounded-full border-2 border-white" />
               <span>Hover</span>
             </div>
             <div className="flex items-center gap-1.5">
@@ -420,8 +420,10 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
                       </span>
                     )}
 
+                    {/* Amber to match the marker on the sphere. A teal badge
+                        beside an amber rotor reads as two different things. */}
                     {display.isAlliance && (
-                      <span className="rounded-full bg-teal px-2 py-0.5 text-[10px] font-bold text-navy">
+                      <span className="rounded-full bg-sun px-2 py-0.5 text-[10px] font-bold text-navy">
                         Alliance
                       </span>
                     )}
@@ -546,16 +548,20 @@ function InteractiveGlobe({ className = '' }: { className?: string }) {
                   {country.capabilities.map((capability) => capability.title).join(' / ')}
                 </span>
               </span>
+              {/* HQ white, Alliance amber — the same two colours the markers
+                  use on the sphere. Both chips were differently-coloured from
+                  their own markers before, so the dock and the globe disagreed
+                  about what each country was. */}
               {country.isHq && (
                 <span
-                  className={`rounded px-1 text-[9px] font-bold ${selected ? 'bg-sun text-navy' : 'bg-sun/20 text-navy'}`}
+                  className={`rounded px-1 text-[9px] font-bold ${selected ? 'bg-white text-navy' : 'border border-hairline bg-white text-navy'}`}
                 >
                   HQ
                 </span>
               )}
               {country.isAlliance && (
                 <span
-                  className={`rounded px-1 text-[9px] font-bold ${selected ? 'bg-teal text-navy' : 'bg-teal/20 text-teal'}`}
+                  className={`rounded px-1 text-[9px] font-bold ${selected ? 'bg-sun text-navy' : 'bg-sun/20 text-navy'}`}
                 >
                   Alliance
                 </span>

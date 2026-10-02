@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { SEO, COUNTRY_COUNT } from '@/content/site'
+import { SEO, COUNTRY_COUNT, CONTACT, CONTACT_ADDRESS_TEXT, FOUNDER } from '@/content/site'
 import { Section, stagger } from '@/components/ui'
 import { PageHero } from '@/components/sections'
 import { ContactForm } from '@/components/ContactForm'
@@ -10,10 +10,13 @@ export const metadata: Metadata = {
   alternates: { canonical: '/contact' },
 }
 
+// The href travels with each detail rather than being inferred from the label
+// at render time — matching on `label === 'Email'` meant renaming a label
+// silently turned its link back into plain text.
 const CONTACT_DETAILS = [
-  { label: 'Email', value: 'mg@windleafenergy.com' },
-  { label: 'Phone / WhatsApp', value: '+91 7904724895' },
-  { label: 'Address', value: 'No.308, 13th Cross Street, Casagrand Arena, Vallakottai, Oragadam, Chennai - 602105' },
+  { label: 'Email', value: CONTACT.email, href: `mailto:${CONTACT.email}` },
+  { label: 'Phone / WhatsApp', value: CONTACT.phone, href: `tel:${CONTACT.phoneHref}` },
+  { label: 'Address', value: CONTACT_ADDRESS_TEXT, href: null },
 ]
 
 export default function ContactPage() {
@@ -44,16 +47,9 @@ export default function ContactPage() {
                       {detail.label}
                     </span>
 
-                    {detail.label === 'Email' ? (
+                    {detail.href ? (
                       <a
-                        href={`mailto:${detail.value}`}
-                        className="mt-1 block text-charcoal/70 transition-colors hover:text-green"
-                      >
-                        {detail.value}
-                      </a>
-                    ) : detail.label === 'Phone / WhatsApp' ? (
-                      <a
-                        href={`tel:${detail.value.replace(/\s+/g, '')}`}
+                        href={detail.href}
                         className="mt-1 block text-charcoal/70 transition-colors hover:text-green"
                       >
                         {detail.value}
@@ -70,9 +66,13 @@ export default function ContactPage() {
             <div className="reveal-up mt-6 rounded-2xl border border-hairline bg-navy p-8 text-white" style={stagger(1)}>
               <h3 className="text-lg font-semibold !text-white">Independent Blade Engineering</h3>
               <p className="mt-2 text-sm text-white/70">
-                17 years across OEM, IPP and independent engineering, with project experience in{' '}
-                {COUNTRY_COUNT} countries.
+                {FOUNDER.years} years across OEM, IPP and independent engineering, with project
+                experience in {COUNTRY_COUNT} countries.
               </p>
+              <p className="mt-4 border-t border-white/15 pt-4 text-sm font-semibold !text-white">
+                {FOUNDER.name}
+              </p>
+              <p className="mt-0.5 text-xs font-medium text-teal">{FOUNDER.role}</p>
             </div>
           </aside>
         </div>

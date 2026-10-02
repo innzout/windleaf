@@ -1,6 +1,7 @@
 import Link from 'next/link'
-import { NAV, SERVICES, COUNTRY_COUNT } from '@/content/site'
+import { NAV, SERVICES, COUNTRY_COUNT, CONTACT } from '@/content/site'
 import { Logo } from '@/components/Logo'
+import { LinkedInLink } from '@/components/LinkedInLink'
 
 export function Footer() {
   return (
@@ -62,10 +63,10 @@ export function Footer() {
                 Email
               </span>
               <a
-                href="mailto:mg@windleafenergy.com"
+                href={`mailto:${CONTACT.email}`}
                 className="mt-0.5 inline-block transition-colors hover:text-leaf"
               >
-                mg@windleafenergy.com
+                {CONTACT.email}
               </a>
             </li>
 
@@ -74,10 +75,10 @@ export function Footer() {
                 Phone / WhatsApp
               </span>
               <a
-                href="tel:+917904724895"
+                href={`tel:${CONTACT.phoneHref}`}
                 className="mt-0.5 inline-block transition-colors hover:text-leaf"
               >
-                +91 7904724895
+                {CONTACT.phone}
               </a>
             </li>
 
@@ -86,11 +87,17 @@ export function Footer() {
                 Address
               </span>
               <span className="mt-0.5 block leading-relaxed">
-                No. 308, 13th Cross Street,<br />
-                Casagrand Arena, Vallakottai, 
-                <br />
-                Oragadam, Chennai – 602105
+                {CONTACT.address.lines.map((line) => (
+                  <span key={line} className="block">
+                    {line},
+                  </span>
+                ))}
+                {CONTACT.address.locality} – {CONTACT.address.postalCode}
               </span>
+            </li>
+
+            <li className="pt-1">
+              <LinkedInLink variant="dark" />
             </li>
           </ul>
 

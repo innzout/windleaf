@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { SEO, PROCESS, WAYS_TO_WORK, SIX_REASONS } from '@/content/site'
 import { Button, Section, SectionHeading, stagger } from '@/components/ui'
 import { PageHero, ClosingCTA } from '@/components/sections'
-
 export const metadata: Metadata = {
   title: SEO.work.title,
   description: SEO.work.description,
