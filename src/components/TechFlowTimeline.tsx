@@ -209,15 +209,15 @@ export function TechFlowTimeline({
       <div className="mt-10 flex flex-wrap justify-center gap-3 sm:gap-4">
         <span className="inline-flex items-center gap-2 rounded-full border border-teal/25 bg-teal/8 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-teal">
           <span className="h-2 w-2 rounded-full bg-teal" />
-          Technology captures
+          TECHNOLOGY ENABLES
         </span>
         <span className="inline-flex items-center gap-2 rounded-full border border-leaf/30 bg-leaf/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-leaf">
           <span className="h-2 w-2 rounded-full bg-leaf" />
-          Engineering interprets
+          ENGINEERING INTERPRETS
         </span>
         <span className="inline-flex items-center gap-2 rounded-full border border-navy/20 bg-navy/6 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-navy">
           <span className="h-2 w-2 rounded-full bg-navy" />
-          Windleaf delivers
+          WINDLEAF DELIVERS
         </span>
       </div>
     </div>

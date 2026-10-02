@@ -50,7 +50,7 @@ export default function TechnologyPage() {
 
         <div className="mt-8 rounded-2xl border border-hairline bg-mist/60 px-6 py-5 text-center">
           <p className="font-display text-base font-semibold leading-relaxed text-navy sm:text-lg">
-            Technology helps us capture and analyse information. Our engineers turn that information into independent, technically sound decisions and practical solutions.
+            We use advanced inspection technologies, engineering analysis and field data to understand blade condition. Our engineers interpret the evidence and deliver independent, technically sound recommendations and practical solutions.
           </p>
         </div>
       </Section>
