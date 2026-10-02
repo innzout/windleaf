@@ -26,7 +26,7 @@ export const HERO_VIDEO: string | null = '/hero.mp4'
  * name from everywhere else.
  */
 export const FOUNDER = {
-  name: 'Muruga Ganesh Kasi Rajan',
+  name: 'Muruga Ganesh Kasirajan',
   role: 'Founder & CEO',
   // Held apart from `role` rather than joined with a pipe. At the weight the
   // designation renders, "|" reads as a capital I — "Founder & CEO I
